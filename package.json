@@ -1,0 +1,22 @@
+{
+  "name": "craigslove",
+  "version": "1.0.0",
+  "description": "Craigslist Personals Analyzer",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/april1452/craigslove.git"
+  },
+  "author": "April Tran, Johnathan Bui, Miriam Ashton, Mohamed Atia",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/april1452/craigslove/issues"
+  },
+  "homepage": "https://github.com/april1452/craigslove#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
