@@ -39,17 +39,7 @@ def write_results(results):
 def get_current_time():
     return datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
 
-if __name__ == '__main__':
-    try:
-        TERM = sys.argv[1]
-        PHONE_NUMBER = sys.argv[2].strip().replace('-', '')
-    except:
-        print "You need to include a search term and a 10-digit phone number!\n"
-        sys.exit(1)
 
-    if len(PHONE_NUMBER) != 10:
-        print "Phone numbers must be 10 digits!\n"
-        sys.exit(1)
 
     
     results = parse_results(TERM)
@@ -57,7 +47,7 @@ if __name__ == '__main__':
     ##write_results(results) 
     
     ##print results
-    print results
+    ##print results
 
     ##print first results's url
     print results[1]['url']
