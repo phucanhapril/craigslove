@@ -29,8 +29,8 @@ COLUMN_MAP = {
 AD_TYPE = [ "stp", "w4w", "w4m", "m4w", "m4m", "msr", "cas", "mis", "rnr"]
 
 CITY_LINKS = [
-    'providence.craigslist.org',
-    'newyork.craigslist.org',
+    #'providence.craigslist.org',
+    #'newyork.craigslist.org',
     'sfbay.craigslist.org',
     'washingtondc.craigslist.org',
     'dallas.craigslist.org'
