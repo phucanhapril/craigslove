@@ -1,0 +1,172 @@
+from bs4 import BeautifulSoup
+from urllib2 import urlopen
+from datetime import datetime
+import csv
+import sys
+import os
+import smtplib
+import config
+
+# Craigslist search URL
+BASE_URL = ('http://providence.craigslist.org/search/'
+            '?sort=rel&areaID=11&subAreaID=&query={0}&catAbb=sss')
+
+
+
+TEST_URL = ('http://providence.craigslist.org/w4m/5434907516.html')
+
+CSV = []
+page = []
+CONDITION = "condition:"
+MEDIA_TYPE = "media:"
+
+
+LinkArray = [("http://providence.craigslist.org/search/stp"), ("http://providence.craigslist.org/search/w4w"), ("http://providence.craigslist.org/search/w4m"), ("http://providence.craigslist.org/search/w4m"), ("http://providence.craigslist.org/search/m4w"), ("http://providence.craigslist.org/search/m4m"), ("http://providence.craigslist.org/search/msr"), ("http://providence.craigslist.org/search/cas"), ("http://providence.craigslist.org/search/mis"), ("http://providence.craigslist.org/search/rnr")]
+
+
+
+def parse_results(search_term, URL_LINKER):
+    results = []
+    search_term = search_term.strip().replace(' ', '+')
+    search_url = URL_LINKER.format(search_term)
+    soup = BeautifulSoup(urlopen(search_url).read())
+    rows = soup.find('div', 'content').find_all('p', 'row')
+    for row in rows:
+        if row.a['href'].startswith("//"):
+            url = "http:" + row.a['href']
+        else:     
+            url = 'http://providence.craigslist.org' + row.a['href']
+        # price = row.find('span', class_='price').get_text()
+        create_date = row.find('time').get('datetime')
+        title = row.find_all('a')[1].get_text()
+        results.append({'url': url, 'create_date': create_date, 'title': title})
+    return results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##Method to save all the neccesary data into csv
+def parse_result(URL_LINK):
+    ##print URL_LINK
+    result_array = []
+    search_url = URL_LINK.format(URL_LINK)
+    ##print search_url
+    soup = BeautifulSoup(urlopen(search_url).read())
+    ##print "hello"
+    ##rows = soup.find_all("p", class_="attrgroup")
+    title = soup.title
+    print "title"
+    print title 
+    result_array = soup.find_all("p", "attrgroup")
+    post = {}
+    # post.title = 
+    for p in result_array:
+        for span in p.find_all("span"):
+            ##print span 
+            if span.b is None:  
+                continue           
+            value = span.b.extract().get_text()
+            key = span.string
+
+            post[key] = value
+
+    write_results_Page(post)
+    ##print page
+
+
+
+def write_results_Page(page):
+
+    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art : ", "diet : ", "facial hair : ", "drinks : ","height : ", "eye color : ", "religion : "])
+    mappings = { "condition: ": 1,  "media type: ": 2, "age: ": 3, "status : ": 4, "body : ": 5,"zodiac : ": 6, "diet : ": 7, "body art : ": 8, "facial hair : ": 9, "drinks : ": 10, "eye color : ": 11, "religion : ": 12 }
+    ##print page #{u'body : ': u'average', u'age: ': u'33'}
+    valueList = [None] * 10
+    for key in page:
+        #print key
+        if key in mappings:
+            index = mappings[key]
+            #print index
+            valueList[index] = page[key]
+    # csv.writeRow(valueList)
+
+
+    
+    try:
+        outputWriter.writerow(valueList)
+    except UnicodeEncodeError:
+        pass
+
+
+
+# def write_results(results):
+#     """Writes list of dictionaries to file."""
+#     fields = results[0].keys()
+#     with open('results.csv', 'w') as f:
+#         dw = csv.DictWriter(f, fieldnames=fields, delimiter=', ')
+#         dw.writer.writerow(dw.fieldnames)
+#         dw.writerows(results)
+
+
+
+
+
+
+def get_current_time():
+    return datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
+
+    
+
+if __name__ == '__main__':
+    outputFile = open('results.csv', 'w')
+    outputWriter = csv.writer(outputFile)
+    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art : ", "diet : ", "facial hair : ", "drinks : ","height : ", "eye color : ", "religion : "])
+    
+    try:
+        TERM = sys.argv[1]
+    except:
+        print "You need to include a search term and a 10-digit phone number!\n"
+        sys.exit(1)
+
+
+    
+    # results = parse_results(TERM, PROV_URL)
+    # for i in results:
+    #      # print type(i['url'])
+    #     print i['url']
+    #     ##print "hello"
+    #     parse_result(i['url'])
+        
+
+
+
+
+    for link in LinkArray:
+        for i in link:
+         # print type(i['url'])
+        ##print i['url']
+        ##print "hello"
+            parse_result(i['url'])
+
+
+
+
+
+    
+    outputFile.close()
+
+
+
+
+## Now we access each link in the result and
+
