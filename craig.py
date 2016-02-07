@@ -123,6 +123,9 @@ def write_results_Page(page):
 
 
 
+
+
+
 def get_current_time():
     return datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
 
@@ -141,12 +144,12 @@ if __name__ == '__main__':
 
 
     
-    results = parse_results(TERM, PROV_URL)
-    for i in results:
-         # print type(i['url'])
-        print i['url']
-        ##print "hello"
-        parse_result(i['url'])
+    # results = parse_results(TERM, PROV_URL)
+    # for i in results:
+    #      # print type(i['url'])
+    #     print i['url']
+    #     ##print "hello"
+    #     parse_result(i['url'])
         
 
 
