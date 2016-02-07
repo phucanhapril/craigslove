@@ -8,8 +8,11 @@ import smtplib
 import config
 
 # Craigslist search URL
-BASE_URL = ('http://chicago.craigslist.org/search/'
+BASE_URL = ('http://providence.craigslist.org/search/'
             '?sort=rel&areaID=11&subAreaID=&query={0}&catAbb=sss')
+
+
+
 TEST_URL = ('http://providence.craigslist.org/w4m/5434907516.html')
 
 CSV = []
@@ -18,22 +21,48 @@ CONDITION = "condition:"
 MEDIA_TYPE = "media:"
 
 
-def parse_results(search_term):
+
+PROV_URL = ("http://providence.craigslist.org/search/stp")
+PROV_URL1 = ("http://providence.craigslist.org/search/w4w")
+PROV_URL2 = ("http://providence.craigslist.org/search/w4m")
+PROV_URL3 = ("http://providence.craigslist.org/search/m4w")
+PROV_URL4 = ("http://providence.craigslist.org/search/m4m")
+PROV_URL5 = ("http://providence.craigslist.org/search/msr")
+PROV_URL6 = ("http://providence.craigslist.org/search/cas")
+PROV_URL7 = ("http://providence.craigslist.org/search/mis")
+PROV_URL8 = ("http://providence.craigslist.org/search/rnr")
+
+
+
+def parse_results(search_term, URL_LINKER):
     results = []
     search_term = search_term.strip().replace(' ', '+')
-    search_url = BASE_URL.format(search_term)
+    search_url = URL_LINKER.format(search_term)
     soup = BeautifulSoup(urlopen(search_url).read())
     rows = soup.find('div', 'content').find_all('p', 'row')
     for row in rows:
         if row.a['href'].startswith("//"):
             url = "http:" + row.a['href']
         else:     
-            url = 'http://chicago.craigslist.org' + row.a['href']
+            url = 'http://providence.craigslist.org' + row.a['href']
         # price = row.find('span', class_='price').get_text()
         create_date = row.find('time').get('datetime')
         title = row.find_all('a')[1].get_text()
         results.append({'url': url, 'create_date': create_date, 'title': title})
     return results
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ##Method to save all the neccesary data into csv
@@ -65,7 +94,7 @@ def parse_result(URL_LINK):
 
 def write_results_Page(page):
 
-    mappings = { "condition: " : 0,  "media type: ": 1 , "age: ": 2, "status : ": 3}
+    mappings = { "condition: " : 0,  "media type: ": 1 , "age: ": 2, "status : ": 3, "body : ": 4,"zodiac : ": 5, "body art : ": 6, "diet : ": 7}
     print page #{u'body : ': u'average', u'age: ': u'33'}
     valueList = [None] * 10
     for key in page:
@@ -102,7 +131,7 @@ def get_current_time():
 if __name__ == '__main__':
     outputFile = open('results.csv', 'w')
     outputWriter = csv.writer(outputFile)
-    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : "])
+    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac :", "body art: ", "diet: "])
     
     try:
         TERM = sys.argv[1]
@@ -112,17 +141,8 @@ if __name__ == '__main__':
 
 
     
-    results = parse_results(TERM)
-    ## This will save the 
-    ##write_results(results) 
-    
-    ##print results
-    ##print results
-
-    ##print first results's url
-    ##print results[1]['url']
-
-    for i in results[0:20]:
+    results = parse_results(TERM, PROV_URL)
+    for i in results:
          # print type(i['url'])
         print i['url']
         ##print "hello"
@@ -130,7 +150,94 @@ if __name__ == '__main__':
         
 
 
-    parse_result(TEST_URL)
+
+    results = parse_results(TERM, PROV_URL1)
+    for i in results:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_result(i['url'])
+
+
+
+
+
+
+    results = parse_results(TERM, PROV_URL2)
+    for i in results:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_result(i['url'])
+
+
+
+
+    results = parse_results(TERM, PROV_URL3)
+    for i in results:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_result(i['url'])
+
+
+    results = parse_results(TERM, PROV_URL4)
+    for i in results:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_result(i['url'])
+
+
+
+
+    results = parse_results(TERM, PROV_URL5)
+    for i in results:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_result(i['url'])
+
+
+
+
+
+    results = parse_results(TERM, PROV_URL6)
+    for i in results:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_result(i['url'])
+
+
+
+
+
+    results = parse_results(TERM, PROV_URL7)
+    for i in results:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_result(i['url'])
+
+
+
+
+
+    results = parse_results(TERM, PROV_URL8)
+    for i in results:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_result(i['url'])
+
+
+
+
+
+
+
+    
     outputFile.close()
 
 
