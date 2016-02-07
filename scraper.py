@@ -16,14 +16,15 @@ COLUMN_MAP = {
     "title": 1, 
     "text": 2,
     "age": 3,
-    "status": 4,
-    "body": 5,
-    "zodiac": 6,
-    "diet": 7,
-    "facial hair": 8,
-    "drinks": 9,
-    "eye color": 10,
-    "religion": 11 }
+    "city": 4,
+    "status": 5,
+    "body": 6,
+    "zodiac": 7,
+    "diet": 8,
+    "facial hair": 9,
+    "drinks": 10,
+    "eye color": 11,
+    "religion": 12 }
 
 AD_TYPE = [ "stp", "w4w", "w4m", "m4w", "m4m", "msr", "cas", "mis", "rnr"]
 
@@ -56,9 +57,15 @@ def parse_page_result(URL_LINK):
 
     result_array = soup.find_all("p", "attrgroup")
     post = {}
+    cities_less_url = city_url.split(".")
+    post["city"] = cities_less_url[0]
     post["url"] = search_url
     post["title"] = soup.title.get_text()
-    post["text"] = soup.find(id="postingbody").get_text()
+    
+    try:
+        post["text"] = soup.find(id="postingbody").get_text()
+    except AttributeError:
+        pass
 
     for p in result_array:
         for span in p.find_all("span"):
