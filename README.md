@@ -1,5 +1,6 @@
-#Craigslove
-This is a Data Science App that scrapes Craigslist and figures out the trends
+# Love in the Time of Craigslist
+## A Tale of Five Cities
+In an ever-increasingly digital world, how has the human quest for love changed? In our project Craigslove, we try to answer th
 
 ##How to use 
 run 'python scraper.py' in the terminal to populate results.csv
