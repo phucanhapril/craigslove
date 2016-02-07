@@ -94,7 +94,8 @@ def parse_result(URL_LINK):
 
 def write_results_Page(page):
 
-    mappings = { "condition: ": 1,  "media type: ": 2, "age: ": 3, "status : ": 4, "body : ": 5,"zodiac : ": 6, "diet : ": 7, "body art : ": 8, "facial hair : ": 9, "drinks : ": 10]}
+    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art : ", "diet : ", "facial hair : ", "drinks : ","height : ", "eye color : ", "religion : ")
+    mappings = { "condition: ": 1,  "media type: ": 2, "age: ": 3, "status : ": 4, "body : ": 5,"zodiac : ": 6, "diet : ": 7, "body art : ": 8, "facial hair : ": 9, "drinks : ": 10, "eye color : ": 11, "religion : ": 12 ]}
     print page #{u'body : ': u'average', u'age: ': u'33'}
     valueList = [None] * 10
     for key in page:
@@ -135,7 +136,7 @@ def get_current_time():
 if __name__ == '__main__':
     outputFile = open('results.csv', 'w')
     outputWriter = csv.writer(outputFile)
-    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art: ", "diet : ", "facial hair : ", "drinks : "])
+    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art : ", "diet : ", "facial hair : ", "drinks : ","height : ", "eye color : ", "religion : "])
     
     try:
         TERM = sys.argv[1]
