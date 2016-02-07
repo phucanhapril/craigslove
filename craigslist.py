@@ -94,7 +94,7 @@ def parse_result(URL_LINK):
 
 def write_results_Page(page):
 
-    mappings = { "condition: ": 1,  "media type: ": 2, "age: ": 3, "status : ": 4, "body : ": 5,"zodiac : ": 6, "body art: ": 7, "diet : ": 8, "body art : ": 9, "facial hair : ": 10, "drinks : ": 11]}
+    mappings = { "condition: ": 1,  "media type: ": 2, "age: ": 3, "status : ": 4, "body : ": 5,"zodiac : ": 6, "diet : ": 7, "body art : ": 8, "facial hair : ": 9, "drinks : ": 10]}
     print page #{u'body : ': u'average', u'age: ': u'33'}
     valueList = [None] * 10
     for key in page:
@@ -135,7 +135,7 @@ def get_current_time():
 if __name__ == '__main__':
     outputFile = open('results.csv', 'w')
     outputWriter = csv.writer(outputFile)
-    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art: ", "diet : ", "body art : ", "facial hair : ", "drinks : "])
+    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art: ", "diet : ", "facial hair : ", "drinks : "])
     
     try:
         TERM = sys.argv[1]
@@ -158,7 +158,7 @@ if __name__ == '__main__':
     results = parse_results(TERM, PROV_URL1)
     for i in results:
          # print type(i['url'])
-        print i['url']
+        #print i['url']
         ##print "hello"
         parse_result(i['url'])
 
@@ -170,7 +170,7 @@ if __name__ == '__main__':
     results = parse_results(TERM, PROV_URL2)
     for i in results:
          # print type(i['url'])
-        print i['url']
+        #print i['url']
         ##print "hello"
         parse_result(i['url'])
 
@@ -180,7 +180,7 @@ if __name__ == '__main__':
     results = parse_results(TERM, PROV_URL3)
     for i in results:
          # print type(i['url'])
-        print i['url']
+        #print i['url']
         ##print "hello"
         parse_result(i['url'])
 
@@ -188,7 +188,7 @@ if __name__ == '__main__':
     results = parse_results(TERM, PROV_URL4)
     for i in results:
          # print type(i['url'])
-        print i['url']
+        #print i['url']
         ##print "hello"
         parse_result(i['url'])
 
@@ -209,7 +209,7 @@ if __name__ == '__main__':
     results = parse_results(TERM, PROV_URL6)
     for i in results:
          # print type(i['url'])
-        print i['url']
+        #print i['url']
         ##print "hello"
         parse_result(i['url'])
 
@@ -220,7 +220,7 @@ if __name__ == '__main__':
     results = parse_results(TERM, PROV_URL7)
     for i in results:
          # print type(i['url'])
-        print i['url']
+        #print i['url']
         ##print "hello"
         parse_result(i['url'])
 
@@ -231,7 +231,7 @@ if __name__ == '__main__':
     results = parse_results(TERM, PROV_URL8)
     for i in results:
          # print type(i['url'])
-        print i['url']
+        ##print i['url']
         ##print "hello"
         parse_result(i['url'])
 
