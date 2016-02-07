@@ -7,7 +7,7 @@ import os
 import smtplib
 import config
 
-# Craigslist search URL
+# Craigslist search ,
 BASE_URL = ('http://providence.craigslist.org/search/'
             '?sort=rel&areaID=11&subAreaID=&query={0}&catAbb=sss')
 
@@ -17,9 +17,20 @@ TEST_URL = ('http://providence.craigslist.org/w4m/5434907516.html')
 
 CSV = []
 page = []
-CONDITION = "condition:"
-MEDIA_TYPE = "media:"
 
+COLUMN_MAP = {
+    "url": 0,
+    "title": 1, 
+    "text": 2,
+    "age": 3,
+    "status": 4,
+    "body": 5,
+    "zodiac": 6,
+    "diet": 7,
+    "facial hair": 8,
+    "drinks": 9,
+    "eye color": 10,
+    "religion": 11 }
 
 
 PROV_URL = ("http://providence.craigslist.org/search/stp")
@@ -53,18 +64,6 @@ def parse_search_result_page(search_term, URL_LINKER):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 ##Method to save all the neccesary data into csv
 def parse_page_result(URL_LINK):
     #print URL_LINK
@@ -72,45 +71,33 @@ def parse_page_result(URL_LINK):
     search_url = URL_LINK.format(URL_LINK)
     #print search_url
     soup = BeautifulSoup(urlopen(search_url).read())
-    ##print "hello"
-    ##rows = soup.find_all("p", class_="attrgroup")
 
     result_array = soup.find_all("p", "attrgroup")
     post = {}
-    ##post["id"] = soup.find("p", class = "postinginfo").find
+    post["url"] = search_url
     post["title"] = soup.title.get_text()
     post["text"] = soup.find(id="postingbody").get_text()
-    # post.title = 
+
     for p in result_array:
         for span in p.find_all("span"):
            #  print span 
             if span.b is None:  
                 continue           
             value = span.b.extract().get_text()
-            key = span.string
-
+            key = span.get_text()[:-2].strip() # strip colons and trailing whitespace
             post[key] = value
     print post
-    write_results_Page(post)
+    write_results_page(post)
+
+
+
+def write_results_page(page):
     print page
-
-
-
-def write_results_Page(page):
-
-    mappings = { "title": 0,  "text": 1, "age: ": 2, "status : ": 3, "body : ": 4,"zodiac : ": 5, "diet : ": 6, "facial hair : ": 8, "drinks : ": 9, "eye color : ": 10, "religion : ": 11 }
-    print page #{u'body : ': u'average', u'age: ': u'33'}
-    valueList = [None] * 20
+    valueList = [None] * len(COLUMN_MAP)
     for key in page:
-        #print key
-        if key in mappings:
-            index = mappings[key]
-            #print index
-            valueList[index] = page[key]
-    # csv.writeRow(valueList)
-
-
-    
+        if key in COLUMN_MAP:
+            index = COLUMN_MAP[key]
+            valueList[index] = page[key]    
     try:
         outputWriter.writerow(valueList)
     except UnicodeEncodeError:
@@ -139,7 +126,9 @@ def get_current_time():
 if __name__ == '__main__':
     outputFile = open('results.csv', 'w')
     outputWriter = csv.writer(outputFile)
-    outputWriter.writerow(["title: ",  "text: ", "age: ", "status : ", "body : ","zodiac : ", "body art : ", "diet : ", "facial hair : ", "drinks : ","height : ", "eye color : ", "religion : "])
+    orderedColumns = sorted(COLUMN_MAP, key=lambda k: COLUMN_MAP[k])
+    outputWriter.writerow(orderedColumns);
+    #outputWriter.writerow(["title: ",  "text: ", "age: ", "status : ", "body : ","zodiac : ", "body art : ", "diet : ", "facial hair : ", "drinks : ","height : ", "eye color : ", "religion : "])
     
     try:
         TERM = sys.argv[1]
@@ -157,7 +146,7 @@ if __name__ == '__main__':
         parse_page_result(i['url'])
         
 
-
+    """
     results = parse_search_result_page(TERM, PROV_URL1)
     for i in results:
          # print type(i['url'])
@@ -222,7 +211,7 @@ if __name__ == '__main__':
         parse_page_result(i['url'])
 
 
-
+    """
 
     
     outputFile.close()
