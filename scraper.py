@@ -26,7 +26,8 @@ COLUMN_MAP = {
     "eye color": 11,
     "religion": 12 }
 
-AD_TYPE = [ "stp", "w4w", "w4m", "m4w", "m4m", "msr", "cas", "mis", "rnr"]
+AD_TYPE = [ "stp", "w4w", "w4m", "m4w","m4m", "msr", "cas", "mis", "rnr"]
+
 
 CITY_LINKS = [
     #'providence.craigslist.org',
@@ -69,6 +70,7 @@ def parse_page_result(page_url, city):
        soup = BeautifulSoup(urlopen(page_url).read(), "html.parser")
     except Exception as e:
         print e
+        return
 
     
     # post represents the single personal ad on this page
@@ -114,9 +116,6 @@ if __name__ == '__main__':
     outputWriter = csv.writer(outputFile)
     orderedColumns = sorted(COLUMN_MAP, key=lambda k: COLUMN_MAP[k])
     outputWriter.writerow(orderedColumns);
-        
-
-    # TODO search all pages for each query
 
     # load location file containing craigslist urls for each city
     #file = open('locations.txt', 'r')
@@ -127,12 +126,10 @@ if __name__ == '__main__':
         print "In city " + city_url
 
         # do a search for every ad type
-        count = 3000
         for adType in AD_TYPE:
             print "searching " + adType
             count = 0
             searchUrl = "http://" + city_url + "/search/" + adType + "/?s=" + str(count)
-            ##print "URL is:" + searchUrl
 
             searchResults = parse_search_result_page(searchUrl, city_url)
             
@@ -144,7 +141,7 @@ if __name__ == '__main__':
                     parsedPost = parse_page_result(adUrl, city_name)
                     # write parsed post to csv
                     write_post(parsedPost)
-                
+
                 count += 100
                 searchUrl = "http://" + city_url + "/search/" + adType + "/?s=" + str(count)
                 searchResults = parse_search_result_page(searchUrl, city_url)
