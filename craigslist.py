@@ -58,19 +58,22 @@ def parse_results(search_term, URL_LINKER):
 
 ##Method to save all the neccesary data into csv
 def parse_result(URL_LINK):
-    print URL_LINK
+    ##print URL_LINK
     result_array = []
     search_url = URL_LINK.format(URL_LINK)
-    print search_url
+    ##print search_url
     soup = BeautifulSoup(urlopen(search_url).read())
     ##print "hello"
     ##rows = soup.find_all("p", class_="attrgroup")
+    title = soup.title
+    print "title"
+    print title 
     result_array = soup.find_all("p", "attrgroup")
     post = {}
     # post.title = 
     for p in result_array:
         for span in p.find_all("span"):
-            print span 
+            ##print span 
             if span.b is None:  
                 continue           
             value = span.b.extract().get_text()
@@ -79,15 +82,15 @@ def parse_result(URL_LINK):
             post[key] = value
 
     write_results_Page(post)
-    print page
+    ##print page
 
 
 
 def write_results_Page(page):
 
-    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art : ", "diet : ", "facial hair : ", "drinks : ","height : ", "eye color : ", "religion : ")
-    mappings = { "condition: ": 1,  "media type: ": 2, "age: ": 3, "status : ": 4, "body : ": 5,"zodiac : ": 6, "diet : ": 7, "body art : ": 8, "facial hair : ": 9, "drinks : ": 10, "eye color : ": 11, "religion : ": 12 ]}
-    print page #{u'body : ': u'average', u'age: ': u'33'}
+    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art : ", "diet : ", "facial hair : ", "drinks : ","height : ", "eye color : ", "religion : "])
+    mappings = { "condition: ": 1,  "media type: ": 2, "age: ": 3, "status : ": 4, "body : ": 5,"zodiac : ": 6, "diet : ": 7, "body art : ": 8, "facial hair : ": 9, "drinks : ": 10, "eye color : ": 11, "religion : ": 12 }
+    ##print page #{u'body : ': u'average', u'age: ': u'33'}
     valueList = [None] * 10
     for key in page:
         #print key
@@ -148,12 +151,12 @@ if __name__ == '__main__':
 
 
 
-for link in LinkArray
-    for i in link:
+    for link in LinkArray:
+        for i in link:
          # print type(i['url'])
         ##print i['url']
         ##print "hello"
-        parse_result(i['url'])
+            parse_result(i['url'])
 
 
 

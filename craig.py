@@ -34,7 +34,7 @@ PROV_URL8 = ("http://providence.craigslist.org/search/rnr")
 
 
 
-def parse_results(search_term, URL_LINKER):
+def parse_search_result_page(search_term, URL_LINKER):
     results = []
     search_term = search_term.strip().replace(' ', '+')
     search_url = URL_LINKER.format(search_term)
@@ -66,27 +66,31 @@ def parse_results(search_term, URL_LINKER):
 
 
 ##Method to save all the neccesary data into csv
-def parse_result(URL_LINK):
-    print URL_LINK
+def parse_page_result(URL_LINK):
+    #print URL_LINK
     result_array = []
     search_url = URL_LINK.format(URL_LINK)
-    print search_url
+    #print search_url
     soup = BeautifulSoup(urlopen(search_url).read())
     ##print "hello"
     ##rows = soup.find_all("p", class_="attrgroup")
+
     result_array = soup.find_all("p", "attrgroup")
     post = {}
+    ##post["id"] = soup.find("p", class = "postinginfo").find
+    post["title"] = soup.title.get_text()
+    post["text"] = soup.find(id="postingbody").get_text()
     # post.title = 
     for p in result_array:
         for span in p.find_all("span"):
-            print span 
+           #  print span 
             if span.b is None:  
                 continue           
             value = span.b.extract().get_text()
             key = span.string
 
             post[key] = value
-
+    print post
     write_results_Page(post)
     print page
 
@@ -94,9 +98,9 @@ def parse_result(URL_LINK):
 
 def write_results_Page(page):
 
-    mappings = { "condition: " : 0,  "media type: ": 1 , "age: ": 2, "status : ": 3, "body : ": 4,"zodiac : ": 5, "body art : ": 6, "diet : ": 7, "body art : ": 8}
+    mappings = { "title": 0,  "text": 1, "age: ": 2, "status : ": 3, "body : ": 4,"zodiac : ": 5, "diet : ": 6, "facial hair : ": 8, "drinks : ": 9, "eye color : ": 10, "religion : ": 11 }
     print page #{u'body : ': u'average', u'age: ': u'33'}
-    valueList = [None] * 10
+    valueList = [None] * 20
     for key in page:
         #print key
         if key in mappings:
@@ -135,7 +139,7 @@ def get_current_time():
 if __name__ == '__main__':
     outputFile = open('results.csv', 'w')
     outputWriter = csv.writer(outputFile)
-    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac :", "body art: ", "diet: ", "body art : " ])
+    outputWriter.writerow(["title: ",  "text: ", "age: ", "status : ", "body : ","zodiac : ", "body art : ", "diet : ", "facial hair : ", "drinks : ","height : ", "eye color : ", "religion : "])
     
     try:
         TERM = sys.argv[1]
@@ -145,98 +149,77 @@ if __name__ == '__main__':
 
 
     
-    # results = parse_results(TERM, PROV_URL)
-    # for i in results:
-    #      # print type(i['url'])
-    #     print i['url']
-    #     ##print "hello"
-    #     parse_result(i['url'])
+    results = parse_search_result_page(TERM, PROV_URL)
+    for i in results:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_page_result(i['url'])
         
 
 
-
-    results = parse_results(TERM, PROV_URL1)
+    results = parse_search_result_page(TERM, PROV_URL1)
     for i in results:
          # print type(i['url'])
         print i['url']
         ##print "hello"
-        parse_result(i['url'])
+        parse_page_result(i['url'])
 
 
-
-
-
-
-    results = parse_results(TERM, PROV_URL2)
+    results = parse_search_result_page(TERM, PROV_URL2)
     for i in results:
          # print type(i['url'])
         print i['url']
         ##print "hello"
-        parse_result(i['url'])
+        parse_page_result(i['url'])
 
 
 
-
-    results = parse_results(TERM, PROV_URL3)
+    results = parse_search_result_page(TERM, PROV_URL3)
     for i in results:
          # print type(i['url'])
         print i['url']
         ##print "hello"
-        parse_result(i['url'])
+        parse_page_result(i['url'])
 
 
-    results = parse_results(TERM, PROV_URL4)
+    results = parse_search_result_page(TERM, PROV_URL4)
     for i in results:
          # print type(i['url'])
         print i['url']
         ##print "hello"
-        parse_result(i['url'])
+        parse_page_result(i['url'])
 
-
-
-
-    results = parse_results(TERM, PROV_URL5)
+    results = parse_search_result_page(TERM, PROV_URL5)
     for i in results:
          # print type(i['url'])
         print i['url']
         ##print "hello"
-        parse_result(i['url'])
+        parse_page_result(i['url'])
 
 
 
-
-
-    results = parse_results(TERM, PROV_URL6)
+    results = parse_search_result_page(TERM, PROV_URL6)
     for i in results:
          # print type(i['url'])
         print i['url']
         ##print "hello"
-        parse_result(i['url'])
+        parse_page_result(i['url'])
 
 
-
-
-
-    results = parse_results(TERM, PROV_URL7)
+    results = parse_search_result_page(TERM, PROV_URL7)
     for i in results:
          # print type(i['url'])
         print i['url']
         ##print "hello"
-        parse_result(i['url'])
+        parse_page_result(i['url'])
 
-
-
-
-
-    results = parse_results(TERM, PROV_URL8)
+    results = parse_search_result_page(TERM, PROV_URL8)
     for i in results:
          # print type(i['url'])
         print i['url']
         ##print "hello"
-        parse_result(i['url'])
-
-
-
+        parse_page_result(i['url'])
 
 
 
