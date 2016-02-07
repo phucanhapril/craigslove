@@ -94,7 +94,7 @@ def parse_result(URL_LINK):
 
 def write_results_Page(page):
 
-    mappings = { "condition: " : 0,  "media type: ": 1 , "age: ": 2, "status : ": 3, "body : ": 4,"zodiac : ": 5, "body art : ": 6, "diet : ": 7, "body art : ": 8}
+    mappings = { "condition: ": 1,  "media type: ": 2, "age: ": 3, "status : ": 4, "body : ": 5,"zodiac : ": 6, "body art: ": 7, "diet : ": 8, "body art : ": 9, "facial hair : ": 10, "drinks : ": 11]}
     print page #{u'body : ': u'average', u'age: ': u'33'}
     valueList = [None] * 10
     for key in page:
@@ -135,7 +135,7 @@ def get_current_time():
 if __name__ == '__main__':
     outputFile = open('results.csv', 'w')
     outputWriter = csv.writer(outputFile)
-    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac :", "body art: ", "diet: ", "body art : " ])
+    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : ", "body : ","zodiac : ", "body art: ", "diet : ", "body art : ", "facial hair : ", "drinks : "])
     
     try:
         TERM = sys.argv[1]
