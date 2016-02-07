@@ -10,6 +10,13 @@ import config
 # Craigslist search URL
 BASE_URL = ('http://chicago.craigslist.org/search/'
             '?sort=rel&areaID=11&subAreaID=&query={0}&catAbb=sss')
+TEST_URL = ('http://providence.craigslist.org/w4m/5434907516.html')
+
+CSV = []
+page = []
+CONDITION = "condition:"
+MEDIA_TYPE = "media:"
+
 
 def parse_results(search_term):
     results = []
@@ -18,7 +25,10 @@ def parse_results(search_term):
     soup = BeautifulSoup(urlopen(search_url).read())
     rows = soup.find('div', 'content').find_all('p', 'row')
     for row in rows:
-        url = 'http://chicago.craigslist.org' + row.a['href']
+        if row.a['href'].startswith("//"):
+            url = "http:" + row.a['href']
+        else:     
+            url = 'http://chicago.craigslist.org' + row.a['href']
         # price = row.find('span', class_='price').get_text()
         create_date = row.find('time').get('datetime')
         title = row.find_all('a')[1].get_text()
@@ -26,19 +36,79 @@ def parse_results(search_term):
     return results
 
 
-def write_results(results):
-    """Writes list of dictionaries to file."""
-    fields = results[0].keys()
-    with open('results.csv', 'w') as f:
-        dw = csv.DictWriter(f, fieldnames=fields, delimiter='|')
-        dw.writer.writerow(dw.fieldnames)
-        dw.writerows(results)
+##Method to save all the neccesary data into csv
+def parse_result(URL_LINK):
+    print URL_LINK
+    result_array = []
+    search_url = URL_LINK.format(URL_LINK)
+    print search_url
+    soup = BeautifulSoup(urlopen(search_url).read())
+    ##print "hello"
+    ##rows = soup.find_all("p", class_="attrgroup")
+    result_array = soup.find_all("p", "attrgroup")
+    post = {}
+    # post.title = 
+    for p in result_array:
+        for span in p.find_all("span"):
+            print span 
+            if span.b is None:  
+                continue           
+            value = span.b.extract().get_text()
+            key = span.string
+
+            post[key] = value
+
+    write_results_Page(post)
+    print page
+
+
+
+def write_results_Page(page):
+
+    mappings = { "condition: " : 0,  "media type: ": 1 , "age: ": 2, "status : ": 3}
+    print page #{u'body : ': u'average', u'age: ': u'33'}
+    valueList = [None] * 10
+    for key in page:
+        #print key
+        if key in mappings:
+            index = mappings[key]
+            #print index
+            valueList[index] = page[key]
+    # csv.writeRow(valueList)
+
+
+    
+    
+    outputWriter.writerow(valueList)
+    
+
+
+
+# def write_results(results):
+#     """Writes list of dictionaries to file."""
+#     fields = results[0].keys()
+#     with open('results.csv', 'w') as f:
+#         dw = csv.DictWriter(f, fieldnames=fields, delimiter=', ')
+#         dw.writer.writerow(dw.fieldnames)
+#         dw.writerows(results)
 
 
 
 def get_current_time():
     return datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S')
 
+    
+
+if __name__ == '__main__':
+    outputFile = open('results.csv', 'w')
+    outputWriter = csv.writer(outputFile)
+    outputWriter.writerow(["condition: ",  "media type: ", "age: ", "status : "])
+    
+    try:
+        TERM = sys.argv[1]
+    except:
+        print "You need to include a search term and a 10-digit phone number!\n"
+        sys.exit(1)
 
 
     
@@ -50,7 +120,18 @@ def get_current_time():
     ##print results
 
     ##print first results's url
-    print results[1]['url']
+    ##print results[1]['url']
+
+    for i in results[0:20]:
+         # print type(i['url'])
+        print i['url']
+        ##print "hello"
+        parse_result(i['url'])
+        
+
+
+    parse_result(TEST_URL)
+    outputFile.close()
 
 
 
