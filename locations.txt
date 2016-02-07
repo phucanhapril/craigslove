@@ -1,14 +1,3 @@
-abilene.craigslist.org
-akroncanton.craigslist.org
-albanyga.craigslist.org
-albany.craigslist.org
-albuquerque.craigslist.org
-altoona.craigslist.org
-amarillo.craigslist.org
-ames.craigslist.org
-anchorage.craigslist.org
-annapolis.craigslist.org
-annarbor.craigslist.org
 appleton.craigslist.org
 asheville.craigslist.org
 ashtabula.craigslist.org
