@@ -1,40 +1,59 @@
 import sys
 import collections
 import Queue
+import csv
 
-AGE_PARAMETER = 0
-GENDER_PARAMETER = 1
+AGE_PARAMETER = 2
+GENDER_PARAMETER = -1 # modify
 
-PARAMATER_OFFSET = -1 # correct once we know structure of data
-NUM_PARAMETERS = 2
+PARAMATER_OFFSET = 0 # modify according to structure of data
+NUM_PARAMETERS = 9
 
 AGE_RANGE = range(100)
 GENDER_RANGE = range(3) # 0 = M, 1 = F, 2 = T
 
 NONE_TOLERANCE = 0
 
-def conditionalProbability(A, B, data):
-    countAandB = 0
-    countB = 0
-    
-    potentiallyB = true
-    potentiallyAandB = true
-    
-    for row in data:
-        for i in range(NUM_PARAMETERS):
-            if B[i] is not None and row[i + PARAMATER_OFFSET] != B[i]:
-                potentiallyB = false
-                    
+CSV_PATH = 'results.csv'
+
+def conditionalProbability(A, B, pathToData):
+    with open(pathToData, 'rb') as data:
+        reader = csv.reader(data)
+
+        countAandB = 0
+        countB = 0
+
+        for row in reader:
+            # print row
+            potentiallyB = True
+            potentiallyAandB = True
+            
+            for i in range(NUM_PARAMETERS):
+                # print str(A[i]) + ', ' + str(B[i]) + ', ' + row[i + PARAMATER_OFFSET]
+                
                 if A[i] is not None and row[i + PARAMATER_OFFSET] != A[i]:
-                    potentiallyAandB = false
+                    # print "potentiallyAandB is false"
+                    potentiallyAandB = False
+                    
+                if B[i] is not None and row[i + PARAMATER_OFFSET] != B[i]:
+                    # print "potentiallyAandB is false"
+                    # print "potentiallyB is false"
+                    potentiallyAandB = False
+                    potentiallyB = False
+            
+            if potentiallyB:
+                countB += 1
+                
+            if potentiallyAandB:
+                countAandB += 1
         
-        if potentiallyB:
-            countB += 1
-            
-        if potentiallyAandB:
-            countAandB += 1
-            
-    return float(countAandB) / countB
+        # print countAandB
+        # print countB
+        
+        if countB > 0:
+            return float(countAandB) / countB
+        else:
+            return -1
             
 def howManyNonesInTuple(tuple):
     noneCount = 0
@@ -110,3 +129,9 @@ def argmax(func):
             print func(age, gender)
             print func(age + 1, gender)
             # get the derivative of func evaluated at (age, gender)
+            
+print(conditionalProbability([None, None, None, 'single', None, None, None, None, None], [None, None, None, None, 'average', None, None, None, None], CSV_PATH))
+print(conditionalProbability([None, None, None, 'single', None, None, None, None, None], [None, None, None, None, 'curvy', None, None, None, None], CSV_PATH))
+
+print(conditionalProbability([None, None, None, 'single', None, None, None, None, None], [None, None, None, None, None, None, None, None, ''], CSV_PATH))
+print(conditionalProbability([None, None, None, 'single', None, None, None, None, None], [None, None, None, None, None, None, None, None, 'Tattoo\'s'], CSV_PATH))
