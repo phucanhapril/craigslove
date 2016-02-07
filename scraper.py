@@ -27,17 +27,18 @@ COLUMN_MAP = {
 
 AD_TYPE = [ "stp", "w4w", "w4m", "m4w", "m4m", "msr", "cas", "mis", "rnr"]
 
-def parse_search_result_page(search_url):
+def parse_search_result_page(search_url, city_url):
     results = []
     # search_term = search_term.strip().replace(' ', '+')
     # search_url = URL_LINKER.format(search_term)
     soup = BeautifulSoup(urlopen(search_url).read())
     rows = soup.find('div', 'content').find_all('p', 'row')
     for row in rows:
+        ##print row.a['href']
         if row.a['href'].startswith("//"):
             url = "http:" + row.a['href']
         else:     
-            url = 'http://providence.craigslist.org' + row.a['href']
+            url = 'http://' + city_url + row.a['href']
         create_date = row.find('time').get('datetime')
         title = row.find_all('a')[1].get_text()
         results.append({'url': url, 'create_date': create_date, 'title': title})
@@ -72,7 +73,7 @@ def parse_page_result(URL_LINK):
 
 
 def write_results_page(page):
-    print page
+    ##print page
     valueList = [None] * len(COLUMN_MAP)
     for key in page:
         if key in COLUMN_MAP:
@@ -93,18 +94,27 @@ if __name__ == '__main__':
 
     # TODO search all pages for each query
     # TODO search different cities
+    file = open('locations.txt', 'r')
+
+    
+    for city in file:
+        city_url =  city
+        city_url = city_url.strip('\n')
+        print "In city " + city_url
 
     # do a search for every ad type
-    for adType in AD_TYPE:
-        print "searching " + adType
-        searchUrl = "http://providence.craigslist.org/search/" + adType
-        searchResults = parse_search_result_page(searchUrl)
-        # iterate thru search results and scrap each page
-        for ad in searchResults:
-            print "scraping " + ad['url']
-            parsedPost = parse_page_result(ad['url'])
-            # write parsed post to csv
-            write_results_page(parsedPost)
+        for adType in AD_TYPE:
+            ##print "searching " + adType
+            searchUrl = "http://" + city_url + "/search/" + adType
+            ##print "URL is:" + searchUrl
+
+            searchResults = parse_search_result_page(searchUrl, city_url)
+            # iterate thru search results and scrap each page
+            for ad in searchResults:
+                ##print "scraping " + ad['url']
+                parsedPost = parse_page_result(ad['url'] )
+                # write parsed post to csv
+                write_results_page(parsedPost)
         
     outputFile.close()
 
