@@ -21,16 +21,7 @@ CONDITION = "condition:"
 MEDIA_TYPE = "media:"
 
 
-
-PROV_URL = ("http://providence.craigslist.org/search/stp")
-PROV_URL1 = ("http://providence.craigslist.org/search/w4w")
-PROV_URL2 = ("http://providence.craigslist.org/search/w4m")
-PROV_URL3 = ("http://providence.craigslist.org/search/m4w")
-PROV_URL4 = ("http://providence.craigslist.org/search/m4m")
-PROV_URL5 = ("http://providence.craigslist.org/search/msr")
-PROV_URL6 = ("http://providence.craigslist.org/search/cas")
-PROV_URL7 = ("http://providence.craigslist.org/search/mis")
-PROV_URL8 = ("http://providence.craigslist.org/search/rnr")
+LinkArray = [("http://providence.craigslist.org/search/stp"), ("http://providence.craigslist.org/search/w4w"), ("http://providence.craigslist.org/search/w4m"), ("http://providence.craigslist.org/search/w4m"), ("http://providence.craigslist.org/search/m4w"), ("http://providence.craigslist.org/search/m4m"), ("http://providence.craigslist.org/search/msr"), ("http://providence.craigslist.org/search/cas"), ("http://providence.craigslist.org/search/mis"), ("http://providence.craigslist.org/search/rnr")]
 
 
 
@@ -156,87 +147,13 @@ if __name__ == '__main__':
 
 
 
-    results = parse_results(TERM, PROV_URL1)
-    for i in results:
-         # print type(i['url'])
-        #print i['url']
-        ##print "hello"
-        parse_result(i['url'])
 
-
-
-
-
-
-    results = parse_results(TERM, PROV_URL2)
-    for i in results:
-         # print type(i['url'])
-        #print i['url']
-        ##print "hello"
-        parse_result(i['url'])
-
-
-
-
-    results = parse_results(TERM, PROV_URL3)
-    for i in results:
-         # print type(i['url'])
-        #print i['url']
-        ##print "hello"
-        parse_result(i['url'])
-
-
-    results = parse_results(TERM, PROV_URL4)
-    for i in results:
-         # print type(i['url'])
-        #print i['url']
-        ##print "hello"
-        parse_result(i['url'])
-
-
-
-
-    results = parse_results(TERM, PROV_URL5)
-    for i in results:
-         # print type(i['url'])
-        print i['url']
-        ##print "hello"
-        parse_result(i['url'])
-
-
-
-
-
-    results = parse_results(TERM, PROV_URL6)
-    for i in results:
-         # print type(i['url'])
-        #print i['url']
-        ##print "hello"
-        parse_result(i['url'])
-
-
-
-
-
-    results = parse_results(TERM, PROV_URL7)
-    for i in results:
-         # print type(i['url'])
-        #print i['url']
-        ##print "hello"
-        parse_result(i['url'])
-
-
-
-
-
-    results = parse_results(TERM, PROV_URL8)
-    for i in results:
+for link in LinkArray
+    for i in link:
          # print type(i['url'])
         ##print i['url']
         ##print "hello"
         parse_result(i['url'])
-
-
 
 
 
