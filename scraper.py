@@ -127,18 +127,27 @@ if __name__ == '__main__':
         print "In city " + city_url
 
         # do a search for every ad type
+        count = 3000
         for adType in AD_TYPE:
             print "searching " + adType
-            searchUrl = "http://" + city_url + "/search/" + adType
+            count = 0
+            searchUrl = "http://" + city_url + "/search/" + adType + "/?s=" + str(count)
             ##print "URL is:" + searchUrl
 
             searchResults = parse_search_result_page(searchUrl, city_url)
-            # iterate thru search results and scrap each page
-            for adUrl in searchResults:
-                print "scraping " + adUrl
-                parsedPost = parse_page_result(adUrl, city_name)
-                # write parsed post to csv
-                write_post(parsedPost)
+            
+            while len(searchResults) > 0:
+                print "searching count " + str(count)
+                # iterate thru search results and scrap each page
+                for adUrl in searchResults:
+                    print "scraping " + adUrl
+                    parsedPost = parse_page_result(adUrl, city_name)
+                    # write parsed post to csv
+                    write_post(parsedPost)
+                
+                count += 100
+                searchUrl = "http://" + city_url + "/search/" + adType + "/?s=" + str(count)
+                searchResults = parse_search_result_page(searchUrl, city_url)
         
     outputFile.close()
 
