@@ -84,7 +84,7 @@ def parse_search_result_page(page):
     try:
         soup = BeautifulSoup(urlopen(search_url).read(), 'lxml')
     except Exception as e:
-        logging.info('error opening page %s', e)
+        logging.error('%s (%s)', e, search_url)
         return []
 
     rows = soup.find('div', 'content').find_all('p', 'row')
@@ -98,7 +98,7 @@ def parse_search_result_page(page):
         """
         postinghref = row.a['href'] 
         if not postinghref.startswith('//') and not postinghref.startswith('http') :
-            url = 'http://' + city_base_url + postinghref
+            url = 'http://{}{}'.format(city_base_url, postinghref)
             datetime = row.find('time')['datetime']
             posting_link = {}
             posting_link['url'] = url
@@ -112,7 +112,7 @@ def parse_page_result(page_url):
     try:
        soup = BeautifulSoup(urlopen(page_url).read(), 'lxml')
     except Exception as e:
-        logging.warning(e)
+        logging.error('%s (%s)', e, page_url)
         return
 
     # the post object represents the single personal ad on this page
@@ -143,7 +143,7 @@ def parse_page_result(page_url):
                     if key in COLUMNS: #ignore custom attributes
                         post[key] = value
     except Exception as e:
-        logging.warning('error at %s: %s', page_url, e)
+        logging.warning(e)
         return None # skip this post altogether
 
     return post
@@ -189,7 +189,7 @@ def get_last_post_datetime():
         try: 
             data = json.load(f)
         except ValueError as e:
-            print e 
+            logging.info(e) 
             data = {}
     return data.get(query) # returns None if the key doesn't exist
 
