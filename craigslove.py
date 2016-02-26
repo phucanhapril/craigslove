@@ -5,7 +5,6 @@ import csv
 import sys
 import os
 import smtplib
-import config
 import re
 import logging
 import json
