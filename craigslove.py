@@ -112,7 +112,7 @@ def parse_page_result(page_url):
     try:
        soup = BeautifulSoup(urlopen(page_url).read(), 'lxml')
     except Exception as e:
-        logging.warning('error at %s: ', page_url, e)
+        logging.warning(e)
         return
 
     # the post object represents the single personal ad on this page
