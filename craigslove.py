@@ -196,7 +196,7 @@ def get_last_post_datetime():
 def save_time(datetime):
     logging.info('   updating last time for %s %s to %s', city_name, query, datetime)
     path = 'results/{}/datetime_last_saved_posts.json'.format(city_name)
-    with open(path, 'rw') as f:
+    with open(path, 'r+') as f:
         try: 
              data = json.load(f)
         except ValueError: 
