@@ -75,7 +75,7 @@ COLUMNS = [
     'weight',
     'zodiac' ]
 
-PERSONALS_SECTIONS = [ 'stp', 'w4w', 'w4m', 'm4w','m4m', 'msr' ]
+PERSONALS_SECTIONS = [ 'm4m', 'msr', 'stp', 'w4w', 'w4m', 'm4w' ]
 
 # global vars
 city_base_url = '' # passed in as arg
