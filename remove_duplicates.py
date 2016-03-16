@@ -15,7 +15,7 @@ ex: python remove_duplicates.py results/providence
 def remove_dups(csv_file):
 	outfilename = 'temp.csv'
 	with open(csv_file,'r') as in_file, open(outfilename,'w') as out_file:
-		seen = set() # set for fast O(1) amortized lookup
+		seen = set()
 		csv_writer = csv.writer(out_file)
 		csv_reader = csv.reader(in_file)
 		dup_count = 0
@@ -39,12 +39,13 @@ def main():
 		print 'Usage: python remove_duplicates.py results/newyork'
 		return
 
+	if os.path.isdir(sys.argv[1]):
+		for f in os.listdir(sys.argv[1]):
+			if f.endswith('.csv'):
+				remove_dups(os.path.join(sys.argv[1], f))
+	else:
+		print sys.argv[1] + ' is not a directory'
 
-	for f in os.listdir(sys.argv[1]):
-		if f.endswith('.csv'): 
-			remove_dups(sys.argv[1] + '/' + f)
-		else:
-			continue
 
 
 
