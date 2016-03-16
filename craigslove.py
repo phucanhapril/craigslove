@@ -293,8 +293,8 @@ def get_subcity(url):
     return None
 
 def main():
-    if len(sys.argv) < 1:
-        print 'Usage: python scraper.py providence.craigslist.org'
+    if len(sys.argv) < 2:
+        print 'Usage: python craigslove.py providence.craigslist.org'
         return
 
     if len(sys.argv[1].split('.')) != 3:
