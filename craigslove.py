@@ -4,7 +4,6 @@ from datetime import datetime
 import csv
 import sys
 import os
-import smtplib
 import re
 import logging
 import json
@@ -75,7 +74,7 @@ COLUMNS = [
     'weight',
     'zodiac' ]
 
-PERSONALS_SECTIONS = [ 'm4m', 'msr', 'stp', 'w4w', 'w4m', 'm4w' ]
+PERSONALS_SECTIONS = [ 'm4m', 'm4w', 'stp', 'w4w', 'w4m', 'msr' ]
 
 # global vars
 city_base_url = '' # passed in as arg
