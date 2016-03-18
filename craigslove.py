@@ -4,10 +4,11 @@ from datetime import datetime
 import csv
 import sys
 import os
-import smtplib
 import re
 import logging
 import json
+import time
+
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 """
@@ -24,9 +25,11 @@ dallas.craigslist.org
 
 """
 
-
 # Flag for scraping only first page of search results for each query (to not overwhelm craigslist when testing)
 FIRST_PAGE_ONLY = False
+
+DELAY = True
+
 DATE_FORMAT = '%Y-%m-%d %H:%M'
 COLUMNS = [
     # required
@@ -71,7 +74,7 @@ COLUMNS = [
     'weight',
     'zodiac' ]
 
-PERSONALS_SECTIONS = [ 'stp', 'w4w', 'w4m', 'm4w','m4m', 'msr' ]
+PERSONALS_SECTIONS = [ 'm4m', 'm4w', 'stp', 'w4w', 'w4m', 'msr' ]
 
 # global vars
 city_base_url = '' # passed in as arg
@@ -242,6 +245,8 @@ def scrape(datetime_most_recent):
                 break
 
             parsedPost = parse_page_result(post_url)
+            if DELAY:
+                time.sleep(1)
             # post may be null if it has been flagged for removal
             if (parsedPost):
                 # add aditional info to post
@@ -267,6 +272,8 @@ def scrape(datetime_most_recent):
         page += 100
         logging.info('   getting searching results for page %s of query %s for %s', page, query, city_name)
         search_results = parse_search_result_page(page)
+        if DELAY:
+            time.sleep(1)
 
 
     # save the most recent post date
@@ -285,8 +292,8 @@ def get_subcity(url):
     return None
 
 def main():
-    if len(sys.argv) < 1:
-        print 'Usage: python scraper.py providence.craigslist.org'
+    if len(sys.argv) < 2:
+        print 'Usage: python craigslove.py providence.craigslist.org'
         return
 
     if len(sys.argv[1].split('.')) != 3:
