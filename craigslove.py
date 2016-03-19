@@ -102,10 +102,10 @@ def parse_search_result_page(page):
         postinghref = row.a['href'] 
         if not postinghref.startswith('//') and not postinghref.startswith('http') :
             url = 'http://{}{}'.format(city_base_url, postinghref)
-            datetime = row.find('time')['datetime']
+            dtime = row.find('time')['datetime']
             posting_link = {}
             posting_link['url'] = url
-            posting_link['datetime_updated'] = datetime # %Y-%m-%d %H:%M
+            posting_link['datetime_updated'] = dtime # %Y-%m-%d %H:%M
             postings_list.append(posting_link)
     return postings_list
 
@@ -196,8 +196,8 @@ def get_last_post_datetime():
             data = {}
     return data.get(query) # returns None if the key doesn't exist
 
-def save_time(datetime):
-    logging.info('   updating last time for %s %s to %s', city_name, query, datetime)
+def save_time(dtime):
+    logging.info('   updating last time for %s %s to %s', city_name, query, dtime)
     path = 'results/{}/datetime_last_saved_posts.json'.format(city_name)
     with open(path, 'r+') as f:
         try: 
@@ -205,7 +205,7 @@ def save_time(datetime):
         except ValueError: 
              data = {}
 
-    data[query] = datetime.strftime(DATE_FORMAT)
+    data[query] = dtime.strftime(DATE_FORMAT)
 
     with open(path, 'w') as f:
         json.dump(data, f)
@@ -240,7 +240,6 @@ def scrape(datetime_most_recent):
             post_d = datetime.strptime(posting_link['datetime_updated'], DATE_FORMAT)
             if datetime_most_recent and post_d <= last_saved_d:
                 reached_datetime = True
-                smallest_post_date = post_d
                 logging.info('   reached datetime %s at %s', datetime_most_recent, post_url)
                 break
 
@@ -262,7 +261,7 @@ def scrape(datetime_most_recent):
                 
                 posts_to_write.append(parsedPost)
                 
-                if smallest_post_date is None or post_d > smallest_post_date:
+                if smallest_post_date is None:
                     smallest_post_date = post_d
 
         # don't go on to the next page if reached most recently saved datetime
