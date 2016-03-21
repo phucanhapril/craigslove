@@ -6,7 +6,7 @@ import re
 from collections import Counter
 
 """
-write top 10 most frequent words per category to output file 'frequencies.csv'
+write top 10 most frequent words per category to output file 'frequencies.json'
 
 Usage: python process_data.py ../results/
 
@@ -31,7 +31,7 @@ def get_category(category, search_type):
 	if category == 'msr' and not search_type:
 		return category
 	if category == 'msr' and search_type:
-		return search_type
+		return search_type.lower()
 	return category #stp
 
 def process(f):
@@ -77,6 +77,7 @@ def main():
 
 	# grab top 10 words and frequencies
 	output = []
+	#TODO calculate TF-IDF http://www.tfidf.com/
 	for category in frequency_map:
 		obj = {}
 		obj['name'] = category
@@ -95,11 +96,6 @@ def main():
 
 	with open('../data/frequencies.json', 'w') as outfile:
 	    json.dump(output, outfile)
-
-	# # write results
-	# with open('../data/frequencies.csv', 'w') as out_file:
-	# 	csv_writer = csv.writer(out_file)
-	# 	csv_writer.writerows(output_rows)
 
 
 if __name__ == '__main__':

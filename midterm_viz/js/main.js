@@ -1,119 +1,120 @@
-
 var draw = function(filepath) {
 
-	var diameter = 960,
-		format = d3.format(",d"),
-		color = d3.scale.category20c();
+	var margin = {
+			top: 20,
+			right: 20,
+			bottom: 100,
+			left: 60
+		},
+		width = 1600 - margin.left - margin.right,
+		height = 800 - margin.top - margin.bottom;
 
-	var bubble = d3.layout.pack()
-		.sort(null)
-		.size([diameter, diameter])
-		.padding(1.5);
+	var x0 = d3.scale.ordinal()
+		.rangeRoundBands([0, width], .1);
+
+	var x1 = d3.scale.ordinal();
+
+	var y = d3.scale.linear()
+		.range([height, 0]);
+
+	var color = d3.scale.ordinal()
+		.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+	var xAxis = d3.svg.axis()
+		.scale(x0)
+		.orient("bottom");
+
+	var yAxis = d3.svg.axis()
+		.scale(y)
+		.orient("left")
+		.tickFormat(d3.format(".2s"));
 
 	var svg = d3.select("body").append("svg")
-		.attr("width", diameter)
-		.attr("height", diameter)
-		.attr("class", "bubble");
+		.attr("width", width + margin.left + margin.right)
+		.attr("height", height + margin.top + margin.bottom)
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	d3.json(filepath, function(error, json) {
 		if (error) throw error;
-		var data = formatData(json);
-		console.log(data);
-		var node = svg.selectAll(".node")
-			.data(bubble.nodes(classes(data))
-				.filter(function(d) {
-					return !d.children;
-				}))
+		var data = json.sort(function(a, b) {
+			return b.values[0].value - a.values[0].value;
+		});
+		var words = data.map(function(d) {
+			return d.word;
+		});
+
+		var categories = data[0]['values'].map(function(d) {
+			return d.category;
+		});
+
+		x0.domain(words);
+		x1.domain(categories).rangeRoundBands([0, x0.rangeBand()]);
+		y.domain([0, d3.max(data, function(d) {
+			return d3.max(d.values, function(d) {
+				return d.value;
+			});
+		})]);
+
+		svg.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0," + height + ")")
+			.call(xAxis)
+			.selectAll("text")
+		    .attr("y", 0)
+		    .attr("x", 9)
+		    .attr("dy", "1em")
+		    .attr("transform", "rotate(45)")
+		    .style("text-anchor", "start");
+
+		svg.append("g")
+			.attr("class", "y axis")
+			.call(yAxis)
+			.append("text")
+			.attr("transform", "rotate(-90)")
+			.attr("y", 6)
+			.attr("dy", ".71em")
+			.style("text-anchor", "end")
+			.text("word frequency");
+
+		var word = svg.selectAll(".word")
+			.data(data)
 			.enter().append("g")
-			.attr("class", "node")
+			.attr("class", "word")
 			.attr("transform", function(d) {
-				return "translate(" + d.x + "," + d.y + ")";
+				return "translate(" + x0(d.word) + ",0)";
 			});
 
-		// node.append("title")
-		// 	.text(function(d) {
-		// 		return d.className + ": " + format(d.value);
-		// 	});
-
-		node.append("circle")
-			.attr("r", function(d) {
-				return d.r;
+		word.selectAll("rect")
+			.data(function(d) {
+				return d.values;
+			})
+			.enter().append("rect")
+			.attr("width", x1.rangeBand())
+			.attr("x", function(d) {
+				return x1(d.category);
+			})
+			.attr("y", function(d) {
+				return y(d.value);
+			})
+			.attr("height", function(d) {
+				return height - y(d.value);
 			})
 			.style("fill", function(d) {
-				return color(d.packageName);
-			});
-
-		node.append("text")
-			.attr("dy", ".3em")
-			.style("text-anchor", "middle")
-			.text(function(d) {
-				return d.className.substring(0, d.r / 3);
-			});
-		node.append("text")
-			.attr("dy", "1.8em")
-			.attr("class", "numLabel")
-			.style("text-anchor", "middle")
-			.attr("opacity", 0)
-			.text(function(d) {
-				return format(d.value);
-			});
-
-		node.on("mouseover", function() {
-				d3.select(this).select('.numLabel').attr('opacity', 1);
+				return color(d.category);
 			})
-			.on("mouseout", function() {
-				d3.select(this).select('.numLabel').attr('opacity', 0);
-			});
+			.on("mouseover", function(d) {
+					console.log(d.category + ", " + d.value);
+				})
+				.on("mouseout", function() {
+					//d3.select(this).select('.numLabel').attr('opacity', 0);
+				});
 	});
 
 };
 
-// Returns a flattened hierarchy containing all leaf nodes under the root.
-var classes = function(root) {
-  var classes = [];
 
-  function recurse(name, node) {
-    if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-    else classes.push({packageName: name, className: node.name, value: node.size});
-  }
-
-  recurse(null, root);
-  return {children: classes};
-}
-
-var formatData = function(json) {
-	var root = {
-		name: 'root',
-		children: [],
-		size: 0
-	};
-	for (var i = 0; i < json.length; i++) {
-		var o = {
-			name: json[i].name,
-			size: 0,
-			children: []
-		};
-		var oSize = 0;
-		var frequencyList = json[i].frequencies;
-		for (var j = 0; j < frequencyList.length; j++) {
-			var o2 = {
-				name: frequencyList[j].word,
-				size: frequencyList[j].count,
-				children: null
-			};
-			o.children.push(o2)
-			o.size += frequencyList[j].count;
-			root.size += frequencyList[j].count;
-			
-		}
-		if (o.size > 400) {
-			root.children.push(o);
-		}
-		
-	}
-	return root;
-};
 $(document).ready(function() {
 	console.log('ready');
-	draw('../data/frequencies.json')
+	draw('../data/frequencies_relative.json')
 });

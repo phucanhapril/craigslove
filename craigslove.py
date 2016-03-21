@@ -230,8 +230,7 @@ def scrape(datetime_most_recent):
 
     smallest_post_date = None
     while len(search_results) > 0:
-        
-        logging.info('   scraping %s results from page %s of query %s for %s', len(search_results), page, query, city_name)
+        logging.info('   scraping %s results from page %s', len(search_results), page/100 + 1)
         
         # iterate thru search results and scrape each page
         reached_datetime = False
@@ -269,7 +268,6 @@ def scrape(datetime_most_recent):
             break
 
         page += 100
-        logging.info('   getting searching results for page %s of query %s for %s', page, query, city_name)
         search_results = parse_search_result_page(page)
         if DELAY:
             time.sleep(1)
