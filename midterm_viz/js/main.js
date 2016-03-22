@@ -26,7 +26,9 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
 	.scale(y)
 	.orient("left")
-	.tickFormat(d3.format("2r"));
+	.innerTickSize(-width)
+	.outerTickSize(0)
+	.tickPadding(10);
 
 var draw = function(filepath) {
 	var svg = d3.select("#barchart").append("svg")
@@ -38,7 +40,9 @@ var draw = function(filepath) {
 	d3.json(filepath, function(error, json) {
 		if (error) throw error;
 		var data = json.sort(function(a, b) {
-			return b.values[0].value - a.values[0].value;
+			var bval = d3.sum(b.values, function(bd){ return bd.value; });
+			var aval = d3.sum(a.values, function(ad){ return ad.value; });
+			return bval - aval;
 		});
 		var words = data.map(function(d) {
 			return d.word;
@@ -58,6 +62,7 @@ var draw = function(filepath) {
 
 		svg.append("g")
 			.attr("transform", "translate(0," + height + ")")
+			.attr("class", "axis")
 			.call(xAxis)
 			.selectAll("text")
 			.attr("y", 0)
@@ -67,11 +72,12 @@ var draw = function(filepath) {
 			.style("text-anchor", "start");
 
 		svg.append("g")
+			.attr("class", "axis")
 			.call(yAxis)
 			.append("text")
 			.attr("transform", "rotate(-90)")
 			.attr("y", 6)
-			.attr("dy", ".71em")
+			.attr("dy", "-3.2em")
 			.style("text-anchor", "end")
 			.text("word frequency");
 
@@ -105,22 +111,10 @@ var draw = function(filepath) {
 				return color(d.category);
 			});
 
-		// rects.on("mouseover", function(d) {
-		// 		var word = $(this).parent('.word').attr("name");
-		// 		var barwidth = $(this).attr("width");
-		// 		var p = $(this).position();
-		// 		d3.select('#tooltip').html(tooltipstring(word, d.category, d.value))
-		// 			.style("left", p.left - barwidth - ($('#tooltip').width() / 2) + "px")
-		// 			.style("top", (p.top - height + 45) + "px")
-		// 			.transition().duration(100).style("opacity", 1);
-		// 	})
-		// 	.on("mouseout", function() {
-		// 		d3.select('#tooltip').transition().duration(100).style("opacity", 0);
-		// 	});
-
 		var legend = svg.selectAll(".legend")
 			.data(categories)
 			.enter().append("g")
+			.attr("class", "legend")
 			.attr("transform", function(d, i) {
 				return "translate(0," + i * 20 + ")";
 			});
@@ -154,11 +148,6 @@ var draw = function(filepath) {
 	});
 
 };
-
-var tooltipstring = function(word, category, value) {
-	return '<b>' + category + '</b><br>\"' + word + '\"<br>' + d3.round(value, 2) + '<br>';
-}
-
 
 $(document).ready(function() {
 	console.log('ready');

@@ -105,7 +105,7 @@ def main():
 		obj = {}
 		obj['name'] = category
 		# get top 10 words and add them to words_to_save set
-		common = Counter(frequency_map[category]).most_common(10)
+		common = Counter(frequency_map[category]).most_common(6)
 		words_to_save.update([x[0] for x in common if x[1] > IMPORTANT_FREQUENCY_THRESHOLD])
 
 	for w in words_to_save:
