@@ -7,16 +7,22 @@ from collections import Counter
 
 """
 
-Usage: python process_data_relative_freq.py ../results/
+Usage: python count_word_freq.py <stopwords file> <results dir> <output json file>
 
 """
 IMPORTANT_FREQUENCY_THRESHOLD = 1000
 punc = re.compile(ur"[^\w\d'\s]+")
-stopword_file = 'stopwords.txt'
 frequency_map = {}
 stopwords = set()
 # only keep big categories
 categories = ["m4m", "m4w", "w4w", "w4m", "stp"]
+
+POST_COUNT = 0
+
+def increment():
+    global POST_COUNT
+    POST_COUNT = POST_COUNT+1
+
 def clean_text(text):
 	text = text.lower()
 	text = punc.sub('', text) # remove all punctuation except apostrophe
@@ -54,7 +60,7 @@ def process(f):
 				continue
 			if not category in frequency_map:
 				frequency_map[category] = []
-
+			increment()
 			# title text
 			frequency_map[category] += clean_text(line[7])# append words form text or something
 			# text body
@@ -62,23 +68,27 @@ def process(f):
 
 
 def main():
-	if len(sys.argv) < 2:
-		print 'Usage: python process_data.py ../../results/'
+	if len(sys.argv) < 4:
+		print 'Usage: python count_word_freq.py <stopwords file> <results dir> <output json file>'
+		return
+	if not os.path.isfile(sys.argv[1]):
+		print sys.argv[1] + ' is not a file'
+		return
+	if not os.path.isdir(sys.argv[2]):
+		print sys.argv[2] + ' is not a directory'
 		return
 
-	with open(stopword_file, 'r') as f:
+	with open(sys.argv[1], 'r') as f:
 		for line in f:
 			stopwords.add(line.rstrip('\n'))
 
 	# process each csv in each subdirectory
-	for d in os.listdir(sys.argv[1]):
-		d_path = os.path.join(sys.argv[1], d)
+	for d in os.listdir(sys.argv[2]):
+		d_path = os.path.join(sys.argv[2], d)
 		if os.path.isdir(d_path):
 			for f in os.listdir(d_path):
 				if f.endswith('.csv'): 
 					process(os.path.join(d_path, f)) # populate frequency_map
-
-
 
 	# grab top 10 words and frequencies
 	output = []
@@ -88,7 +98,7 @@ def main():
 	final format
 	[
 	{	word: "love"
-		values: [{ category: m4w, value: 0.0001 }, .. ]
+		values: [{ category: m4w, value: 0.100 }, .. ]
 	}, ...
 	"""
 	for category in frequency_map:
@@ -110,12 +120,15 @@ def main():
 			obj['values'].append(value_object)
 		output.append(obj)
 
-	with open('../data/frequencies_relative.json', 'w') as outfile:
+	print str(POST_COUNT) + ' posts analyzed'
+	with open(sys.argv[3], 'w') as outfile:
 	    json.dump(output, outfile)
+
 
 def word_value(word, wordlist):
 	count = wordlist.count(word)
 	return (count / (len(wordlist)*1.0))*100.0
+
 
 if __name__ == '__main__':
 	main()

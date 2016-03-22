@@ -1,35 +1,35 @@
+/* multi bar chart showing word frequency */
+var margin = {
+		top: 20,
+		right: 20,
+		bottom: 100,
+		left: 60
+	},
+	width = 1200 - margin.left - margin.right,
+	height = 600 - margin.top - margin.bottom,
+	frequencyJsonFile = '../data/frequencies.json';
+
+var x0 = d3.scale.ordinal()
+	.rangeRoundBands([0, width], .1);
+
+var x1 = d3.scale.ordinal();
+
+var y = d3.scale.linear()
+	.range([height, 0]);
+
+var color = d3.scale.category20();
+
+var xAxis = d3.svg.axis()
+	.scale(x0)
+	.orient("bottom");
+
+var yAxis = d3.svg.axis()
+	.scale(y)
+	.orient("left")
+	.tickFormat(d3.format("2r"));
+
 var draw = function(filepath) {
-
-	var margin = {
-			top: 20,
-			right: 20,
-			bottom: 100,
-			left: 60
-		},
-		width = 1600 - margin.left - margin.right,
-		height = 800 - margin.top - margin.bottom;
-
-	var x0 = d3.scale.ordinal()
-		.rangeRoundBands([0, width], .1);
-
-	var x1 = d3.scale.ordinal();
-
-	var y = d3.scale.linear()
-		.range([height, 0]);
-
-	var color = d3.scale.ordinal()
-		.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
-
-	var xAxis = d3.svg.axis()
-		.scale(x0)
-		.orient("bottom");
-
-	var yAxis = d3.svg.axis()
-		.scale(y)
-		.orient("left")
-		.tickFormat(d3.format(".2s"));
-
-	var svg = d3.select("body").append("svg")
+	var svg = d3.select("#barchart").append("svg")
 		.attr("width", width + margin.left + margin.right)
 		.attr("height", height + margin.top + margin.bottom)
 		.append("g")
@@ -57,18 +57,16 @@ var draw = function(filepath) {
 		})]);
 
 		svg.append("g")
-			.attr("class", "x axis")
 			.attr("transform", "translate(0," + height + ")")
 			.call(xAxis)
 			.selectAll("text")
-		    .attr("y", 0)
-		    .attr("x", 9)
-		    .attr("dy", "1em")
-		    .attr("transform", "rotate(45)")
-		    .style("text-anchor", "start");
+			.attr("y", 0)
+			.attr("x", 9)
+			.attr("dy", "1em")
+			.attr("transform", "rotate(45)")
+			.style("text-anchor", "start");
 
 		svg.append("g")
-			.attr("class", "y axis")
 			.call(yAxis)
 			.append("text")
 			.attr("transform", "rotate(-90)")
@@ -81,11 +79,14 @@ var draw = function(filepath) {
 			.data(data)
 			.enter().append("g")
 			.attr("class", "word")
+			.attr("name", function(d) {
+				return d.word;
+			})
 			.attr("transform", function(d) {
 				return "translate(" + x0(d.word) + ",0)";
 			});
 
-		word.selectAll("rect")
+		var rects = word.selectAll("rect")
 			.data(function(d) {
 				return d.values;
 			})
@@ -102,19 +103,64 @@ var draw = function(filepath) {
 			})
 			.style("fill", function(d) {
 				return color(d.category);
-			})
-			.on("mouseover", function(d) {
-					console.log(d.category + ", " + d.value);
-				})
-				.on("mouseout", function() {
-					//d3.select(this).select('.numLabel').attr('opacity', 0);
-				});
+			});
+
+		// rects.on("mouseover", function(d) {
+		// 		var word = $(this).parent('.word').attr("name");
+		// 		var barwidth = $(this).attr("width");
+		// 		var p = $(this).position();
+		// 		d3.select('#tooltip').html(tooltipstring(word, d.category, d.value))
+		// 			.style("left", p.left - barwidth - ($('#tooltip').width() / 2) + "px")
+		// 			.style("top", (p.top - height + 45) + "px")
+		// 			.transition().duration(100).style("opacity", 1);
+		// 	})
+		// 	.on("mouseout", function() {
+		// 		d3.select('#tooltip').transition().duration(100).style("opacity", 0);
+		// 	});
+
+		var legend = svg.selectAll(".legend")
+			.data(categories)
+			.enter().append("g")
+			.attr("transform", function(d, i) {
+				return "translate(0," + i * 20 + ")";
+			});
+
+		legend.append("rect")
+			.attr("x", width - 18)
+			.attr("width", 18)
+			.attr("height", 18)
+			.style("fill", color);
+
+		legend.append("text")
+			.attr("x", width - 24)
+			.attr("y", 9)
+			.attr("dy", ".35em")
+			.style("text-anchor", "end")
+			.text(function(d) {
+				if (d == 'w4m') {
+					return 'woman seeking man';
+				}
+				if (d == 'w4w') {
+					return 'woman seeking woman';
+				}
+				if (d == 'm4m') {
+					return 'man seeking man';
+				}
+				if (d == 'm4w') {
+					return 'man seeking woman';
+				}
+				return 'strictly platonic';
+			});
 	});
 
 };
 
+var tooltipstring = function(word, category, value) {
+	return '<b>' + category + '</b><br>\"' + word + '\"<br>' + d3.round(value, 2) + '<br>';
+}
+
 
 $(document).ready(function() {
 	console.log('ready');
-	draw('../data/frequencies_relative.json')
+	draw(frequencyJsonFile)
 });
