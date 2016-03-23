@@ -7,7 +7,7 @@ var margin = {
 	},
 	width = 1200 - margin.left - margin.right,
 	height = 600 - margin.top - margin.bottom,
-	frequencyJsonFile = '/viz/data/frequencies.json';
+	frequencyJsonFile = '/craigslove/viz/data/frequencies.json';
 
 var x0 = d3.scale.ordinal()
 	.rangeRoundBands([0, width], .1);
