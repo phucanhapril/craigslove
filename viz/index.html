@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>craigslove visualization</title>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="author" content=""> 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--# CSS #}-->
+  <link href='https://fonts.googleapis.com/css?family=Oxygen:300' rel='stylesheet' type='text/css'></link>
+  <link rel="stylesheet" href="css/style.css">
+  <!--# JAVASCRIPT #}-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
+  <script src="js/barchart.js"></script>
+</head>
+
+<body>
+  <div id="description">
+    <h1> Word Frequency in Craigslist Personal Ads </h1>
+    <p>We analyzed text from the title and body of 213024 posts, spanning 14 cities. In the below graph you'll find analyses of the six most common posting categories -- man seeking woman, man seeking man, woman seeking woman, woman seeking man, and strictly platonic. We used the bag-of-words model to represent all words used in each posting category, excluding stopwords. The chart below shows the most frequently used words for each category. Word frequency is enumerated here as ( # occurrences of word / total # words in category ).
+    </p>
+  </div>
+  <div id="barchart">
+  </div>
+</body>
+
+</html>
