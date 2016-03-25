@@ -25,10 +25,7 @@ dallas.craigslist.org
 
 """
 
-# Flag for scraping only first page of search results for each query (to not overwhelm craigslist when testing)
-FIRST_PAGE_ONLY = False
-
-DELAY = True
+DELAY = False
 
 DATE_FORMAT = '%Y-%m-%d %H:%M'
 COLUMNS = [
@@ -264,7 +261,7 @@ def scrape(datetime_most_recent):
                     smallest_post_date = post_d
 
         # don't go on to the next page if reached most recently saved datetime
-        if FIRST_PAGE_ONLY or reached_datetime:
+        if reached_datetime:
             break
 
         page += 100
