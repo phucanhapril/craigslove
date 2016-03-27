@@ -25,7 +25,7 @@ dallas.craigslist.org
 
 """
 
-DELAY = False
+DELAY = True
 
 DATE_FORMAT = '%Y-%m-%d %H:%M'
 COLUMNS = [
@@ -77,6 +77,12 @@ PERSONALS_SECTIONS = [ 'm4m', 'm4w', 'stp', 'w4w', 'w4m', 'msr' ]
 city_base_url = '' # passed in as arg
 city_name = ''
 query = '' # the current personal section being scraped
+seen_urls = set()
+
+# get ' - m4m' from end of title
+re_title_type = re.compile(' - ..?4..?$');
+# get http(s)://
+re_http = re.compile('https?:\/\/')
 
 # get a list of URLs from a personals search result
 def parse_search_result_page(page):
@@ -90,6 +96,9 @@ def parse_search_result_page(page):
     rows = soup.find('div', 'content').find_all('p', 'row')
 
     postings_list = []
+
+    duplicate_posts = 0
+    new_posts = 0
     for row in rows:
         
         """
@@ -97,13 +106,20 @@ def parse_search_result_page(page):
         because it means they're linking to a "nearby city"
         """
         postinghref = row.a['href'] 
-        if not postinghref.startswith('//') and not postinghref.startswith('http') :
+        if not postinghref.startswith('//') and not postinghref.startswith('http'):
             url = 'http://{}{}'.format(city_base_url, postinghref)
+            if url in seen_urls: # skip already saved posts
+                duplicate_posts += 1
+                continue
+            else:
+                new_posts += 1
             dtime = row.find('time')['datetime']
             posting_link = {}
             posting_link['url'] = url
             posting_link['datetime_updated'] = dtime # %Y-%m-%d %H:%M
             postings_list.append(posting_link)
+
+    logging.info('   %s already saved posts, %s new posts', duplicate_posts, new_posts)
     return postings_list
 
 
@@ -159,7 +175,7 @@ def convert_to_row(post):
     return values
 
 """
-get a post's 'category' (i.e. casual encounter, strictly platonic)
+get a post's 'category' (i.e. miscellaneous romance, strictly platonic)
 along with its type (i.e. m4m, w4mw)
 """
 def get_category_and_type(section, title):
@@ -168,7 +184,7 @@ def get_category_and_type(section, title):
         return ('msr', section)
     
     # otherwise, find the search type from the title string
-    m = re.search(' - ..?4..?$', title)
+    m = re_title_type.search(title)
     s_type = None
     if (m):
         s_type = m.group(0)[3:]
@@ -176,22 +192,22 @@ def get_category_and_type(section, title):
 
 
 
-# get the datetime of the last post we've saved for this query
+# read the datetime of the last post we've saved for this query
 def get_last_post_datetime():
-    logging.info('   getting last time for %s %s', city_name, query)
     readpath = 'results/{}/datetime_last_saved_posts.json'.format(city_name)
     directory_path = 'results/{}'.format(city_name)
     if not os.path.exists(directory_path):
         os.makedirs(directory_path)
 
     mode = 'r' if os.path.exists(readpath) else 'w+'
+    data = {}
     with open(readpath, mode) as f:
         try: 
             data = json.load(f)
         except ValueError as e:
             logging.info(e) 
-            data = {}
-    return data.get(query) # returns None if the key doesn't exist
+
+    return data.get(query)
 
 def save_time(dtime):
     logging.info('   updating last time for %s %s to %s', city_name, query, dtime)
@@ -250,8 +266,7 @@ def scrape(datetime_most_recent):
                 parsedPost['datetime_updated'] = posting_link['datetime_updated']
                 parsedPost['subcity'] = get_subcity(post_url)
                 category,search_type = get_category_and_type(query, parsedPost['title'])
-                # remove ' - m4m' from end of title
-                parsedPost['title'] = re.sub(' - ..?4..?$', '', parsedPost['title'])
+                parsedPost['title'] = re_title_type.sub('', parsedPost['title'])
                 parsedPost['category'] = category
                 parsedPost['type'] = search_type
                 
@@ -279,11 +294,24 @@ def scrape(datetime_most_recent):
 
 # get the subcity, like 'brk' in 'http://newyork.craigslist.org/brk/stp/'
 def get_subcity(url):
-    remove_http = re.sub('https?:\/\/', '', url)
+    remove_http = re_http.sub('', url)
     split = remove_http.split('/')
     if len(split) > 3:
         return split[1]
     return None
+
+def populate_seen_urls(csv_result_file):
+    if not os.path.isfile(csv_result_file):
+        return
+
+    global seen_urls
+    seen_urls = set() # empty it first
+    with open(csv_result_file,'r') as f:
+        csv_reader = csv.reader(f)
+        for line in csv_reader:
+            # first item is the unique url
+            seen_urls.add(line[0])
+    logging.info('   have %s saved posts', len(seen_urls))
 
 def main():
     if len(sys.argv) < 2:
@@ -306,9 +334,12 @@ def main():
 
         query = q # set global var
 
+        result_path = 'results/{}/{}.csv'.format(city_name, query)
+        populate_seen_urls(result_path)
+
         datetime_most_recent = get_last_post_datetime()
-        if datetime_most_recent is not None:
-            logging.info('   read most recent time to be %s', datetime_most_recent)
+       # if datetime_most_recent is not None:
+       #     logging.info('   read most recent time to be %s', datetime_most_recent)
 
         # scrape all posts from this query in this city
         posts_to_write = scrape(datetime_most_recent)
@@ -319,7 +350,6 @@ def main():
             # write results
             
             directory_path = 'results/{}'.format(city_name)
-            result_path = 'results/{}/{}.csv'.format(city_name, query)
 
             if not os.path.exists(directory_path):
                 os.makedirs(directory_path)
