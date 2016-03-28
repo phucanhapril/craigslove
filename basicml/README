@@ -1,0 +1,10 @@
+variables::
+type: {'w4t': 14, 't4m': 4, 'w4w': 3, 'mm4ww': 16, 'w4m': 0, 'ww4ww': 26, 'ww4mm': 23, 'mm4mm': 29, 'w4mw': 10, 'm4w': 1, 'm4t': 6, 'ww4m': 27, 'w4mm': 25, 'ww4w': 30, 'm4m': 2, 'mw4m': 24, 't4mw': 21, 't4w': 11, 't4t': 5, 't4mm': 18, 'mw4t': 22, 't4ww': 28, 'mw4w': 15, 'mm4mw': 17, 'mm4w': 20, 'm4mw': 7, 'mw4mw': 9, 'm4mm': 13, 'mm4m': 19, 'm4ww': 8, 'w4ww': 12}
+title length
+text length
+age:
+body: {'heavy': 3, 'fit': 6, 'athletic': 5, 'big': 0, 'average': 1, 'curvy': 2, 'thin': 4, 'skinny': 7, 'hwp': 8}
+height:
+
+To predict::
+status: {'separated': 2, 'widowed': 3, 'never': 6, 'divorced': 1, 'married': 4, 'partnered': 5, 'single': 0}
