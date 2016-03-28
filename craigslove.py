@@ -112,6 +112,7 @@ def parse_search_result_page(page):
                 duplicate_posts += 1
                 continue
             else:
+                seen_urls.add(url) # in case it appears on the next search result page again
                 new_posts += 1
             dtime = row.find('time')['datetime']
             posting_link = {}
@@ -119,7 +120,7 @@ def parse_search_result_page(page):
             posting_link['datetime_updated'] = dtime # %Y-%m-%d %H:%M
             postings_list.append(posting_link)
 
-    logging.info('   %s already saved posts, %s new posts', duplicate_posts, new_posts)
+    logging.info('   (%s already saved posts, %s new posts)', duplicate_posts, new_posts)
     return postings_list
 
 
@@ -243,7 +244,7 @@ def scrape(datetime_most_recent):
 
     smallest_post_date = None
     while len(search_results) > 0:
-        logging.info('   scraping %s results from page %s', len(search_results), page/100 + 1)
+        logging.info('   scraping %s posts from page %s', len(search_results), page/100 + 1)
         
         # iterate thru search results and scrape each page
         reached_datetime = False
@@ -330,7 +331,7 @@ def main():
     city_name = city_base_url.split('.')[0] #global
 
     for q in PERSONALS_SECTIONS:
-        logging.info('*** beginning scrape of %s in %s ***', q, city_name)
+        logging.info('*** %s %s ***', q, city_name)
 
         query = q # set global var
 
@@ -338,8 +339,6 @@ def main():
         populate_seen_urls(result_path)
 
         datetime_most_recent = get_last_post_datetime()
-       # if datetime_most_recent is not None:
-       #     logging.info('   read most recent time to be %s', datetime_most_recent)
 
         # scrape all posts from this query in this city
         posts_to_write = scrape(datetime_most_recent)
