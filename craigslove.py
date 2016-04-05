@@ -25,7 +25,7 @@ dallas.craigslist.org
 
 """
 
-DELAY = True
+DELAY = False
 
 DATE_FORMAT = '%Y-%m-%d %H:%M'
 COLUMNS = [
