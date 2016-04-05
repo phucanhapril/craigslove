@@ -120,7 +120,7 @@ def parse_search_result_page(page):
             posting_link['datetime_updated'] = dtime # %Y-%m-%d %H:%M
             postings_list.append(posting_link)
 
-    logging.info('   (%s already saved posts, %s new posts)', duplicate_posts, new_posts)
+    # logging.info('   (%s already saved posts, %s new posts)', duplicate_posts, new_posts)
     return postings_list
 
 
