@@ -1,17 +1,17 @@
 # Love in the Time of Craigslist
 ## A Tale of Five Cities
 In an ever-increasingly digital world, how has the human quest for love changed? In our project Craigslove, we try to answer this question, and more.
+  
+midterm report http://april1452.github.io/craigslove/  
+preliminary findings visualized http://april1452.github.io/craigslove/viz/  
 
-##How to use 
-run __`python craigslove.py <base url>`__  
+##How to run 
+__`python craigslove.py <base url>`__  
 
 the url should be a base url in this form:  
 *   newyork.craigslist.org
 *   sfbay.craigslist.org
 *   providence.craigslist.org
-*   miami.craigslist.org
-*   denver.craigslist.org
-*   dallas.craigslist.org
 
 This will scrape personals from Strictly Platonic (stp), Miscellaneous Romance (msr), w4w, w4m, m4w, and m4m.
 
