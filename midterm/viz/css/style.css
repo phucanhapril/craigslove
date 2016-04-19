@@ -1,0 +1,60 @@
+body {
+	font-family: 'Oxygen', sans-serif;
+}
+#description {
+	margin-left:5%;
+	margin-right:5%;
+}
+#description ul {
+ list-style-type: none;
+}
+#barchart {
+	font-size:.8em;
+}
+.axis path,
+.axis line {
+	fill: none;
+	stroke: black;
+	opacity: 0.2;
+}
+.tick line,
+.tick path {
+	opacity: 0.2;
+}
+.word rect, .legend rect {
+	opacity: 0.8;
+}
+#tooltip {
+	position: relative;
+	background: #242424;
+	color:white;
+	width: 100px;
+	height: 70px;
+	border: 4px solid #242424;
+	border-radius: 4px;
+	text-align: center;
+	opacity: 0;
+}
+#tooltip:after, #tooltip:before {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+#tooltip:after {
+	border-color: rgba(36, 36, 36, 0);
+	border-top-color: #242424;
+	border-width: 2px;
+	margin-left: -2px;
+}
+#tooltip:before {
+	border-color: rgba(194, 225, 245, 0);
+	border-top-color: #242424;
+	border-width: 8px;
+	margin-left: -8px;
+}
