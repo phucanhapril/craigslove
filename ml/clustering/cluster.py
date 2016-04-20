@@ -9,67 +9,35 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.cluster import KMeans
 from sklearn.externals import joblib
 
+"""
+first run 'python format_data.py' to create formatted_posts.csv
+"""
+
+
 # reference: http://brandonrose.org/clustering
 
 
 punc = re.compile(ur"[^\w\d'\s]+")
-results_dir = '../../results'
-output_file = 'providence_tokenized_posts.csv' #'small_sample.csv'
+data_file = 'formatted_posts.csv' #'small_sample.csv'
 
 # which words are not interesting?
-personals_stopwords = ['guy', 'guys', 'girl', 'girls', 'woman', 'women', 'man', 'men', 'pics', 'pic', 'send', 'reply', 'good', 'age']
+stopwords = ['guy', 'guys', 'girl', 'girls', 'woman', 'women', 'man', 'men', 'pics', 'pic', 'send', 'reply', 'good', 'age']
 
-
-
-def flatten_results():
-	# process each csv in each subdirectory
-	posts_to_write = []
-
-	for d in os.listdir(results_dir):
-		d_path = os.path.join(results_dir, d)
-		if os.path.isdir(d_path):
-			print d_path
-			for f in os.listdir(d_path):
-				if f.endswith('.csv'): 
-					csv_file = os.path.join(d_path, f)
-					with open(csv_file,'r') as in_file:
-						next(in_file)
-						csv_reader = csv.reader(in_file)
-						for line in csv_reader:
-							# extract only the content we want
-							content = []
-							content.append(line[1]) #city
-							content.append(line[8]) #text
-							posts_to_write.append(content)
-
-	print ' saving ' + str(len(posts_to_write)) + ' posts'
-	with open(output_file, 'w') as out_file:
-		csv_writer = csv.writer(out_file)
-		for p in posts_to_write:
-			csv_writer.writerow(p)
-	return posts_to_write
 
 def main():
-	# TODO have a 'group by' variable that corresponds to a column -- so we can switch between city and category
-	# also a sub-group-by
 
-	#all_posts = flatten_results() # returns posts AND SAVES THEM TO A CSV FILE
-	
+	# read posts from file
 	all_posts = []
-	post_count = 0
-	with open(output_file, 'r') as flattened:
+	with open(data_file, 'r') as flattened:
 		csv_reader = csv.reader(flattened)
 		for line in csv_reader:
-			all_posts.append(line[1])
-			post_count += 1
-			#if post_count > 10000:
-			#	break #TEMP limit because running out of space
+			all_posts.append(line[0])
 
+	print 'read ' + str(len(all_posts)) + ' posts'
 
+	# add english language stopwords from file
 	with open('stopwords.txt') as f:
-		stopwords = f.read().splitlines()
-
-	stopwords = stopwords + personals_stopwords
+		stopwords.extend(f.read().splitlines())
 	
 	#define vectorizer parameters
 	tfidf_vectorizer = TfidfVectorizer(max_df=0.8, max_features=200000,
@@ -81,9 +49,10 @@ def main():
 	print tfidf_matrix.shape
 
 	terms = tfidf_vectorizer.get_feature_names() #a list of the features used in the tf-idf matrix
+	
 	print terms
 
-	dist = 1 - cosine_similarity(tfidf_matrix)
+	#dist = 1 - cosine_similarity(tfidf_matrix)
 
 	num_clusters = 2
 
@@ -99,10 +68,10 @@ def main():
 
 	order_centroids = km.cluster_centers_.argsort()[:, ::-1]
 	for i in range(num_clusters):
-		print 'top terms for cluster ' + str(i+1) + ':'
-		for ind in order_centroids[i, :8]:
-			print terms[ind]
 		print ''
+		print 'top terms for cluster ' + str(i+1) + ':'
+		for j in order_centroids[i, :8]:
+			print terms[j]
 
 def tokenize(text):
 	text = text.lower()
