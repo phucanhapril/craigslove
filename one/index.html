@@ -25,7 +25,7 @@
             <h2>
                <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Blogpost #1
             </h2>
-            We used sklearn library to assign TF/IDF weights to all our craigslist personal ads, then perform k-means clustering. So far we played around with clustering only the Providence posts, because the data from all the cities combined was too big (for now). Here are the results from 2-means clustering (i.e. the top terms used for each of 2 clusters) which are pretty interesting:
+            This week, we used Python's sklearn library to assign TF/IDF weights to all of the craigslist personal ads we've scraped, and then we performed k-means clustering on them. So far, we've played around with clustering only the Providence posts, because the data from all the cities combined was too big (for now). The results of 2-means clustering (i.e., the top terms used for each of 2 clusters) are as follows. It would appear that the first cluster corresponds to ads for low-commitment encounters, and the second to ads for deeper relationships:
             <br>
             top terms for cluster 0:
             <br>
@@ -50,7 +50,7 @@
             real                               
             <br>
             <br>
-            Here are the results from another iteration, of 5-means clustering. It seems like there is a lot of overlap.                          
+            Below are the results from another iteration, of 5-means clustering, as well as a corresponding word-cloud visualisation. It seems that there is moderate overlap from one cluster to another, and the distinctions between them are becoming less well-defined:
             <br>
             top terms for cluster 0:
             <br>
@@ -96,13 +96,16 @@
             ddf
             clean
             white
+            
+            <img src="../images/word_cloud.png">
+
             <br>
             <br>
             <br>
-            We were attempting to perform clustering on a very large data set, and the machine on which we were running our code didn’t have sufficient RAM to perform operations of that magnitude. After consulting our mentor Vinh, we are considering options such as using a sparse matrix implementation to be less computationally intensive given the high sparsity of our data set, or principal component analysis to reduce its dimensionality. More simply, we’re also going to see if switching to a machine with more RAM is sufficient for our needs.
+            We've encountered some challenges with working on the entirety of our craigslist data. When we attempted to perform clustering on that large a data set, we found that the machine on which we were running our code didn't have sufficient RAM to perform operations of that magnitude. After consulting our mentor Vinh, we are considering options such as using a sparse matrix implementation to be less computationally intensive given the high sparsity of our data set, or principal component analysis to reduce its dimensionality. More simply, we're also going to see if switching to a machine with more RAM is sufficient for our needs.
             <br>
             <br>
-            We plan on using different clustering algorithms because some may perform better than others. We also plan on running clustering algorithms on larger datasets. It would be interesting to compare clusters across different geographic regions. We may create a naive front end to display the findings.
+            Looking ahead, we plan on using different clustering algorithms to investigate the possibility that some may perform better than others. We also hope to be able to run those clustering algorithms on larger datasets, as it would be interesting to compare clusters across different geographic regions. Lastly, we'd like to ultimately create a naive front end for our project through which to display our findings.
          </section>
       </div>
    </body>
