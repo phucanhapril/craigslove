@@ -1,116 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-
-    <link rel="stylesheet" type="text/css" href="/craigslove/stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="/craigslove/stylesheets/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="/craigslove/stylesheets/print.css" media="print">
-  
-    <title>Craigslove by april1452</title>
-  </head>
-
-  <body>
-
-    <header>
+   <head>
+      <meta charset='utf-8'>
+      <meta http-equiv="X-UA-Compatible" content="chrome=1">
+      <link rel="stylesheet" type="text/css" href="/craigslove/stylesheets/stylesheet.css" media="screen">
+      <link rel="stylesheet" type="text/css" href="/craigslove/stylesheets/github-dark.css" media="screen">
+      <link rel="stylesheet" type="text/css" href="/craigslove/stylesheets/print.css" media="print">
+      <title>Craigslove by april1452</title>
+   </head>
+   <body>
+      <header>
+         <div class="container">
+            <h1>Craigslove</h1>
+            <h2>Love in the time of Craigslist</h2>
+            <section id="downloads">
+               <a href="https://github.com/april1452/craigslove/zipball/master" class="btn">Download as .zip</a>
+               <a href="https://github.com/april1452/craigslove/tarball/master" class="btn">Download as .tar.gz</a>
+               <a href="https://github.com/april1452/craigslove" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+            </section>
+         </div>
+      </header>
       <div class="container">
-        <h1>Craigslove</h1>
-        <h2>Love in the time of Craigslist</h2>
-
-        <section id="downloads">
-          <a href="https://github.com/april1452/craigslove/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/april1452/craigslove/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/april1452/craigslove" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
+         <section id="main_content">
+            <h2>
+               <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Blogpost #1
+            </h2>
+            We used sklearn library to assign TF/IDF weights to all our craigslist personal ads, then perform k-means clustering. So far we played around with clustering only the Providence posts, because the data from all the cities combined was too big (for now). Here are the results from 2-means clustering (i.e. the top terms used for each of 2 clusters) which are pretty interesting:
+            <br>
+            top terms for cluster 0:
+            <br>
+            host
+            clean
+            cock
+            stats
+            suck
+            discreet
+            free
+            nice
+            <br>
+            top terms for cluster 1:
+            <br>
+            love
+            fun
+            time
+            interested
+            meet
+            nice
+            email
+            real                               
+            <br>
+            <br>
+            Here are the results from another iteration, of 5-means clustering. It seems like there is a lot of overlap.                          
+            <br>
+            top terms for cluster 0:
+            <br>
+            discreet
+            clean
+            host
+            masculine
+            safe
+            ddf
+            <br>
+            top terms for cluster 1:
+            <br>
+            top
+            bottom
+            host
+            stats
+            fuck
+            oral
+            <br>
+            top terms for cluster 2:
+            <br>
+            cock
+            suck
+            stats
+            big
+            nice
+            host
+            <br>
+            top terms for cluster 3:
+            <br>
+            dick
+            suck
+            big
+            love
+            host
+            ass
+            <br>
+            top terms for cluster 4:
+            <br>
+            host
+            stats
+            fun
+            ddf
+            clean
+            white
+            <br>
+            <br>
+            <br>
+            We were attempting to perform clustering on a very large data set, and the machine on which we were running our code didn’t have sufficient RAM to perform operations of that magnitude. After consulting our mentor Vinh, we are considering options such as using a sparse matrix implementation to be less computationally intensive given the high sparsity of our data set, or principal component analysis to reduce its dimensionality. More simply, we’re also going to see if switching to a machine with more RAM is sufficient for our needs.
+            <br>
+            <br>
+            We plan on using different clustering algorithms because some may perform better than others. We also plan on running clustering algorithms on larger datasets. It would be interesting to compare clusters across different geographic regions. We may create a naive front end to display the findings.
+         </section>
       </div>
-    </header>
-
-    <div class="container">
-      <section id="main_content">
-        <h2>
-<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Blogpost #1</h2>
-
-      </section>
-    </div>
-
-  We used sklearn library to assign TF/IDF weights to all our craigslist personal ads, then perform k-means clustering. So far we played around with clustering only the Providence posts, because the data from all the cities combined was too big (for now). Here are the results from 2-means clustering (i.e. the top terms used for each of 2 clusters) which are pretty interesting:
-  <br>
-  top terms for cluster 0:
-  <br>
-  host
-  clean
-  cock
-  stats
-  suck
-  discreet
-  free
-  nice
-  <br>
-  top terms for cluster 1:
-  <br>
-  love
-  fun
-  time
-  interested
-  meet
-  nice
-  email
-  real                               
-  <br>
-  <br>
-  Here are the results from another iteration, of 5-means clustering. It seems like there is a lot of overlap.                          
-  <br>
-  top terms for cluster 0:
-  <br>
-  discreet
-  clean
-  host
-  masculine
-  safe
-  ddf
-  <br>
-  top terms for cluster 1:
-  <br>
-  top
-  bottom
-  host
-  stats
-  fuck
-  oral
-  <br>
-  top terms for cluster 2:
-  <br>
-  cock
-  suck
-  stats
-  big
-  nice
-  host
-  <br>
-  top terms for cluster 3:
-  <br>
-  dick
-  suck
-  big
-  love
-  host
-  ass
-  <br>
-  top terms for cluster 4:
-  <br>
-  host
-  stats
-  fun
-  ddf
-  clean
-  white
-  <br>
-  <br>
-  <br>
-  We were attempting to perform clustering on a very large data set, and the machine on which we were running our code didn’t have sufficient RAM to perform operations of that magnitude. After consulting our mentor Vinh, we are considering options such as using a sparse matrix implementation to be less computationally intensive given the high sparsity of our data set, or principal component analysis to reduce its dimensionality. More simply, we’re also going to see if switching to a machine with more RAM is sufficient for our needs.
-  <br>
-  <br>
-  We plan on using different clustering algorithms because some may perform better than others. We also plan on running clustering algorithms on larger datasets. It would be interesting to compare clusters across different geographic regions. We may create a naive front end to display the findings.
-  </body>
+   </body>
 </html>
