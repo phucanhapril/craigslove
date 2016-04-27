@@ -30,11 +30,7 @@
       <section id="main_content">
         <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Blogpost #2</h2>
-
-      </section>
-    </div>
-
-    We created a random post generator to randomly generate posts on craigslist personals using a markov chain.
+We created a random post generator to randomly generate posts on craigslist personals using a markov chain.
 There are 6 different categories for posts: ['m4m', 'm4w', 'msr', 'stp', 'w4m', 'w4w'].
 For each one of these categories, our model has a different transition matrix for the markov chain used.
 In the transition matrix, each row represents a word, with special rows representing the start of a post, the end of a post, and punctuation marks.
@@ -45,5 +41,9 @@ Each word was lowercased because we believed it would create better results; som
 To randomly generate a post, we start at the START row in the transition matrix T. We sample from the distribution represented by the START row; suppose we sampled column c. Then we go to row c and repeat this process until we reach the END row.
 <br><br>
 We also generated the "most probable post" for each of the 6 categories. To do this, at each row in the transition matrix T, we looked for the highest value T[i][j] given i to get the next state (word) represented by j.
+      </section>
+    </div>
+
+
   </body>
 </html>
