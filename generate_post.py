@@ -53,7 +53,7 @@ def tokenize(words):
             words[i] = words[i][:-1]
             words.insert(i + 1, words[i][-1])
             
-        index += 1
+        i += 1
     
     return words
 
@@ -61,15 +61,15 @@ def tokenize(words):
 def calculate_transition_matrix(training_data): # training_data is a list of strings
     transition_matrix = defaultdict(lambda: defaultdict(float))
     
-    for post in training_data.split('\n'):
+    for post in training_data:
         words = tokenize(post.lower().split())
         
         transition_matrix['*START*'][words[0]] += 1.0
         
-        for i in len(words) - 1:
+        for i in range(len(words) - 1):
             transition_matrix[words[i]][words[i + 1]] += 1.0
         
-        transition_matrix[words[len(words)]]['*END*'] += 1.0
+        transition_matrix[words[len(words)-1]]['*END*'] += 1.0
     
     for w in transition_matrix:
         unigram_count = 0
