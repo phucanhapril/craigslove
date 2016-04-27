@@ -31,16 +31,58 @@
         <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Blogpost #2</h2>
 We created a random post generator to randomly generate posts on craigslist personals using a markov chain.
+<br>
 There are 6 different categories for posts: ['m4m', 'm4w', 'msr', 'stp', 'w4m', 'w4w'].
+<br>
 For each one of these categories, our model has a different transition matrix for the markov chain used.
 In the transition matrix, each row represents a word, with special rows representing the start of a post, the end of a post, and punctuation marks.
+<br>
 The transition matrix T was obtained by going through all the posts for a specific category and counting the number of times the following word appeared after it. Afterwards, every row was normalized to sum to 1.
+<br>
 T[i][j] represents the probability that the word represented by column j follows the word represented by row i. Here, words include words as well as the special START, END symbols and punctuation marks.
+<br>
 Each word was lowercased because we believed it would create better results; some people tend to capitalize random letters in words.
-<br><br>
+<br>
+<br>
 To randomly generate a post, we start at the START row in the transition matrix T. We sample from the distribution represented by the START row; suppose we sampled column c. Then we go to row c and repeat this process until we reach the END row.
-<br><br>
+<br>
+<br>
 We also generated the "most probable post" for each of the 6 categories. To do this, at each row in the transition matrix T, we looked for the highest value T[i][j] given i to get the next state (word) represented by j.
+<br>
+<br>
+An example post generated from m4m is:
+<br>
+"hi i want to suck and we do it and get turned on my sexual energy and love to nut and if you are looking for the tip of us now w if post is pretty hot so we both h very muscular build d rockefeller r pics i sincerely appreciate and location"
+<br>
+<br>
+An example post generated from m4w is:
+<br>
+"big hearted loving christian female e i'm in all the ability to 5 foot tall l (although i am now am a healthy man who can have free e let's discuss in public place that can always attract fat and likes watching an abuse aminals helping peope e regardless s delicate flower r blue eyes 190 pounds light skin hope to chill l thanks s college dorms welcome"
+<br>
+<br>
+An example post generated from msr (miscellaneous romance, talk about how this one uses more sentimental language like "intimately" and "soul"):
+<br>
+"we are a picture too o but the car due to entertain you could be drug free couple friendly woman intimately y let's talk k home could come true trans soul rebel"
+<br>
+<br>
+An example post generated from stp (strictly platonic, talk about how this one has no sexual or romantic language, suggesting cautious activities like emailing one another and having lunch): 
+<br>
+"let's email and finally happened the same oh and see where we can host at all for anything just be cautious and need to party was with technology and you will have lunch"
+<br>
+<br>
+An example post generated from w4m (talk about how this one has clearly been trained on posts in which women describe looking for "happy" and "good" men):
+<br>
+"like a perfect guy i am ready to take care if we've been yeaaars since most sensual sign both happy person...i dont feel free to find a beautiful i am ready to first then we should be ggg in contact me just looking for a good guy"
+<br>
+<br>
+An example post generated from w4w: 
+<br>
+"hello ladies 32yo married and getting out of myself so i want to get to help i can go to i will do i am generally attracted to be attracted to hearing from you are interested please do have had fantasies for a woman - i walk with a female looking to be to..its my own place"  
+<br>
+<br>
+It is apparent that there are more masculine terms in m4m and more feminine terms in m4w; this makes sense because the users are trying to attract different types of people.
+
+
       </section>
     </div>
 
