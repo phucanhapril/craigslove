@@ -107,6 +107,7 @@ containing
 contains
 could
 couldnt
+'d
 d
 date
 did
@@ -277,6 +278,7 @@ look
 looking
 looks
 ltd
+'m
 m
 made
 mainly
@@ -340,6 +342,7 @@ noted
 nothing
 now
 nowhere
+n't
 o
 obtain
 obtained
@@ -408,7 +411,7 @@ r
 ran
 rather
 rd
-re
+'re
 readily
 really
 recent
@@ -427,6 +430,7 @@ resulting
 results
 right
 run
+'s
 s
 said
 same
@@ -588,6 +592,7 @@ v
 value
 various
 've
+ve
 very
 via
 viz
