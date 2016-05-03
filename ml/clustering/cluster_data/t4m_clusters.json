@@ -1,0 +1,65 @@
+{
+	"1": {
+		"cities": [
+			["sfbay", 59],
+			["newyork", 38],
+			["losangeles", 18],
+			["miami", 17],
+			["dallas", 15],
+			["washingtondc", 12],
+			["lasvegas", 11],
+			["seattle", 9]
+		],
+		"terms": ["cd", "top", "love", "time", "dress", "nice", "sexi", "seek", "clean", "host", "bottom", "pictur", "fun", "sex", "ltr", "full", "passabl", "bodi", "thing", "long"],
+		"categories": [
+			["msr", 1033],
+			["stp", 276]
+		],
+		"types": [
+			["msr - t4m", 172],
+			["stp - t4m", 28]
+		]
+	},
+	"3": {
+		"cities": [
+			["newyork", 160],
+			["sfbay", 140],
+			["dallas", 127],
+			["miami", 63],
+			["lasvegas", 61],
+			["losangeles", 52],
+			["seattle", 50],
+			["washingtondc", 50]
+		],
+		"terms": ["seek", "friend", "fun", "real", "time", "meet", "interest", "free", "serious", "tall", "sex", "nice", "life", "live", "face", "pictur", "relationship", "top", "respond", "passabl"],
+		"categories": [
+			["msr", 1033],
+			["stp", 276]
+		],
+		"types": [
+			["msr - t4m", 644],
+			["stp - t4m", 189]
+		]
+	},
+	"2": {
+		"cities": [
+			["sfbay", 70],
+			["newyork", 58],
+			["dallas", 26],
+			["losangeles", 21],
+			["seattle", 20],
+			["washingtondc", 19],
+			["denver", 18],
+			["miami", 13]
+		],
+		"terms": ["love", "time", "well", "work", "relationship", "find", "friend", "sex", "seek", "meet", "peopl", "life", "go", "sexi", "interest", "long", "care", "open", "thing", "hope"],
+		"categories": [
+			["msr", 1033],
+			["stp", 276]
+		],
+		"types": [
+			["msr - t4m", 217],
+			["stp - t4m", 59]
+		]
+	}
+}

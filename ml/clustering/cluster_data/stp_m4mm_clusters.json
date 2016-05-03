@@ -1,0 +1,53 @@
+{
+	"1": {
+		"cities": [
+			["sfbay", 13],
+			["dallas", 1]
+		],
+		"terms": ["group", "support", "member", "messag", "email", "closet", "size", "friendship", "privat group", "age", "email address", "marri", "address", "shape", "discreet", "post", "provid", "privat", "share", "contact"],
+		"categories": [
+			["stp", 148]
+		],
+		"types": [
+			["stp - m4mm", 14]
+		]
+	},
+	"3": {
+		"cities": [
+			["dallas", 6],
+			["miami", 5],
+			["chicago", 5],
+			["seattle", 3],
+			["sfbay", 3],
+			["washingtondc", 3],
+			["newyork", 3],
+			["denver", 2]
+		],
+		"terms": ["friend", "movi", "drink", "gay", "info", "love", "meet", "peopl", "contact", "hang", "play", "fun", "group", "night", "work", "email", "messag", "post", "interest", "male"],
+		"categories": [
+			["stp", 148]
+		],
+		"types": [
+			["stp - m4mm", 32]
+		]
+	},
+	"2": {
+		"cities": [
+			["newyork", 18],
+			["dallas", 18],
+			["miami", 15],
+			["denver", 15],
+			["seattle", 6],
+			["sfbay", 6],
+			["chicago", 5],
+			["washingtondc", 5]
+		],
+		"terms": ["male", "gay", "group", "play", "bodi", "seek", "meet", "interest", "host", "love", "work", "contact", "fun", "year", "night", "hang", "peopl", "provid", "info", "friend"],
+		"categories": [
+			["stp", 148]
+		],
+		"types": [
+			["stp - m4mm", 102]
+		]
+	}
+}
