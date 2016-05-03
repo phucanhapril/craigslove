@@ -102,16 +102,16 @@ def cluster(data_file, num_clusters):
 		cluster_json['terms'] = [ terms[j] for j in order_centroids[i, :NUM_TOP_TERMS]]
 		
 		# top types (ie m4m, m4w)
-		types = frame.ix[i]['type'].values.tolist()
-		cluster_json['types'] = [x for x in pd.value_counts(types)[:NUM_TOP_FIELDS].iteritems()]
+		cluster_types = frame.ix[i]['type'].values.tolist()
+		cluster_json['types'] = [x for x in pd.value_counts(cluster_types)[:NUM_TOP_FIELDS].iteritems()]
 
 		# top categories (msr or stp)
-		cluster_json['categories'] = []
-		cluster_json['categories'] = [x for x in pd.value_counts(categories)[:NUM_TOP_FIELDS].iteritems()]
+		cluster_categories = frame.ix[i]['category'].values.tolist()
+		cluster_json['categories'] = [x for x in pd.value_counts(cluster_categories)[:NUM_TOP_FIELDS].iteritems()]
 
 		# top cities
-		cities = frame.ix[i]['city'].values.tolist()
-		cluster_json['cities'] = [x for x in pd.value_counts(cities)[:NUM_TOP_FIELDS].iteritems()]
+		cluster_cities = frame.ix[i]['city'].values.tolist()
+		cluster_json['cities'] = [x for x in pd.value_counts(cluster_cities)[:NUM_TOP_FIELDS].iteritems()]
 
 		clusters_as_json[str(i+1)] = cluster_json
 

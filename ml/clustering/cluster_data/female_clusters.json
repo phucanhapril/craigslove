@@ -1,0 +1,56 @@
+{
+	"1": {
+		"cities": [
+			["newyork", 347],
+			["dallas", 293],
+			["sfbay", 274],
+			["miami", 210],
+			["seattle", 176],
+			["denver", 165],
+			["washingtondc", 136],
+			["losangeles", 125]
+		],
+		"terms": ["friend", "hang", "love", "femal", "fun", "meet", "time", "talk", "email", "interest", "year", "work", "movi", "thing", "peopl", "go", "drink", "hope", "live", "find"],
+		"categories": [
+			["stp", 1314],
+			["msr", 804]
+		],
+		"types": [
+			["stp - w4w", 710],
+			["msr - w4w", 465],
+			["stp - w4m", 435],
+			["msr - w4m", 338],
+			["stp - w4mw", 133],
+			["stp - w4ww", 22],
+			["stp - w4t", 10],
+			["stp - w4mm", 4]
+		]
+	},
+	"2": {
+		"cities": [
+			["newyork", 1636],
+			["sfbay", 1084],
+			["dallas", 920],
+			["washingtondc", 682],
+			["seattle", 639],
+			["losangeles", 567],
+			["miami", 543],
+			["denver", 496]
+		],
+		"terms": ["love", "time", "fun", "seek", "interest", "meet", "singl", "life", "pictur", "relationship", "femal", "work", "email", "thing", "attract", "real", "enjoy", "find", "ladi", "year"],
+		"categories": [
+			["msr", 6217],
+			["stp", 1665]
+		],
+		"types": [
+			["msr - w4m", 3835],
+			["msr - w4w", 2356],
+			["stp - w4m", 849],
+			["stp - w4w", 577],
+			["stp - w4mw", 185],
+			["stp - w4ww", 22],
+			["stp - w4t", 20],
+			["msr - w4mw", 15]
+		]
+	}
+}
