@@ -68,6 +68,38 @@ def by_field(dirname, column_number):
 	for value in rows_by_field:
 		write_rows('data/' + dirname + '/' + value + '.csv', rows_by_field[value])
 
+def by_category_and_type():
+	rows_by_field = {}
+	for city in os.listdir(results_dir):
+		d_path = os.path.join(results_dir, city)
+		if os.path.isdir(d_path):
+			posts = []
+			for f in os.listdir(d_path):
+				if f.endswith('.csv'): 
+					with open(os.path.join(d_path, f),'r') as in_file:
+						next(in_file) # skip column labels
+						csv_reader = csv.reader(in_file)
+						for line in csv_reader:
+							city = line[1]
+							title = line[7]
+							text = line[8] + title + title # DOUBLE WEIGHT WORDS IN TITLE
+							category = line[5]
+							posttype = line[6]
+							v1 = category
+							v2 = posttype
+							if not v1:
+								v1 = 'none'
+							if not v2:
+								v2 = 'none'
+
+							value = v1 + '_' + v2
+							if value not in rows_by_field:
+								rows_by_field[value] = []
+							rows_by_field[value].append([text, city, category, posttype]) #text
+
+	for value in rows_by_field:
+		write_rows('data/category_type/' + value + '.csv', rows_by_field[value])
+
 """
 split up all posts into those posted by males (for anyone) and those posted by females (for anyone)
 * this excludes posts coming from two people (ie mw4m, mm4m, etc)
@@ -104,7 +136,8 @@ def by_gender():
 def main():
 	#by_city()
 	#by_field('type', 6)
-	by_gender()
+	#by_gender()
+	by_category_and_type()
 
 if __name__ == '__main__':
 	main()
