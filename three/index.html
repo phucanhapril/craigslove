@@ -25,15 +25,136 @@
         </section>
       </div>
     </header>
-
     <div class="container">
       <section id="main_content">
         <h2>
-<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Blogpost #3</h2>
+          <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>
+          Blogpost #3
+        </h2>
+        <p>
+          This week we continued to make progress on clustering posts. We’ve working on separating out data into groups, performing clustering on each of those groups, and comparing the resulting clusters.
+        </p>
+        <p>
+          Since last time, we’ve improved our clustering algorithm so we can now draw more meaningful insights from the clusters–– rather than simply seeing the top terms per cluster, we can also now see other information about the posts in each cluster, such as the city it was posted in it, the “type” of post (i.e. woman seeking man), or the “category” of the post, like “platonic.”
+        </p>
+        <p>In this example, we ran the clustering algorithm on a random sample of 100,000 posts written by men and 100,000 posts written by women. Each of these groups include both ‘romantic’ and ‘platonic’ categories of posts, including varying queries such as ‘man seeking woman’, ‘man seeking man’, ‘man seeking trans’, etc. </p>
+        <p>As a result of the 2-means clustering on each of these groups, male-written posts clustered into two groups which we dubbed the "casual sex" cluster and the "romance" cluster. Female-written posts clustered into two groups which we dubbed the "friendship" cluster and the "relationship" cluster.</p>
 
+
+        <h2> male poster - cluster 1 </h2>
+        <h3>(the "casual sex" cluster)</h3>
+        <h6> insights </h6>
+        <p> This cluster seems to represent posts written by men that are likely looking for casual sex. Words like 'travel,' 'host,' and 'discreet' indicate that the poster is looking to set up a meeting immediately. Many posts in this cluster are written by men who are seeking another man, multiple men, or trans men and women. </p>
+        <h6> top terms </h6>
+        <p>
+        host, suck, cock, top, bottom, stat, clean, fuck, discreet, white, play, free, travel, nice, fun, love, prefer, email, body, open
+        </p>
+        <h6> category distribution </h6>
+        <p> 4014 posts tagged as "miscellaneous romance" </p>
+        <p> 25 posts tagged as "strictly platonic" </p>
+        <h6> top types </h6>
+        <p>m4m, 0.015240618922541704</p>
+        <p>m4mm, 0.0058139534883720929</p>
+        <p>m4t, 0.0038659793814432991</p>
+        <p>m4w, 0.00062360751276978115</p>
+        <p>m4mw, 0.00060975609756097561</p>
+        <h6> top cities </h6>
+        <p>jacksonville, 0.010692804633548674</p>
+        <p>washingtondc, 0.010088816073122359</p>
+        <p>sfbay, 0.0089880322396808602</p>
+        <p>providence, 0.0087665143844919118</p>
+        <p>chicago, 0.0085959885386819486</p>
+        <p>denver, 0.0085023784788670793</p>
+        <p>dallas, 0.0083261058109280143</p>
+        <p>newyork, 0.0081342833585606872</p>
+
+
+        <h2> male poster - cluster 2 </h2>
+        <h3>(the "romance" cluster)</h3>
+        <h6> insights </h6>
+        <p> This cluster contains posts written by men that may be seeking romance, love, or friendship. The most represented types in this cluster are men that are seeking one woman (m4w), multiple women (m4ww), men and women (m4mw) and trans men and women (m4t). </p>
+        <h6> top terms </h6>
+        <p>
+        love, fun, friend, time, interest, seek, meet, work, nice, enjoy, white, email, open, free, thing, find, well, great, long, play
+        </p>
+        <h6> category distribution </h6>
+        <p> 5026 posts tagged as "miscellaneous romance" </p>
+        <p> 935 posts tagged as "strictly platonic" </p>
+        <h6> top types </h6>
+        <p>m4ww, 0.035999999999999997</p>
+        <p>m4mw, 0.025000000000000001</p>
+        <p>m4w, 0.022336487275572161</p>
+        <p>m4t, 0.016752577319587628</p>
+        <p>m4mm, 0.011627906976744186</p>
+        <p>m4m, 0.007414983380209665
+        <h6> top cities </h6>
+        <p>oklahomacity, 0.014692787177203919</p>
+        <p>minneapolis, 0.013712477475497737</p>
+        <p>losangeles, 0.013566938763901136</p>
+        <p>denver, 0.013314013888129477</p>
+        <p>chicago, 0.013180515759312322</p>
+        <p>sfbay, 0.012830741675486444</p>
+        <p>dallas, 0.012508432109472873</p>
+        <p>providence, 0.012470675392023707</p>
+
+        <h2> female poster - cluster 1 </h2>
+        <h3>(the "relationship" cluster)</h3>
+        <h6> insights </h6>
+        <p> This cluster contains posts by women that may be seeking romance or relationship. Words like 'relationship' 'love' 'single' and 'attract' indicate that these posters are looking for more than friendship. </p>
+        <h6> top terms </h6>
+        <p>
+        love, time, fun, seek, interest, meet, single, life, picture, female, relationship, work, email, thing, attract, real, enjoy, find, year, ladies
+        </p>
+        <h6> category distribution </h6>
+        <p> 6217 posts tagged as "miscellaneous romance" </p>
+        <p> 1665 posts tagged as "strictly platonic" </p>
+        <h6> top types </h6>
+        <p>w4m, 0.27408056042031526</p>
+        <p>w4t, 0.23762376237623761</p>
+        <p>w4w, 0.22351871495681164</p>
+        <p>w4mm, 0.21428571428571427</p>
+        <p>w4mw, 0.19727891156462585</p>
+        <p>w4ww, 0.16666666666666666</p>
+        <h6> top cities </h6>
+        <p>newyork, 0.020132658963094227</p>
+        <p>jacksonville, 0.020049008687903765</p>
+        <p>seattle, 0.019932622122403144</p>
+        <p>dallas, 0.017731521634383733</p>
+        <p>sfbay, 0.017650411137344297</p>
+        <p>losangeles, 0.016126738530674933</p>
+        <p>lasvegas, 0.015303119482048263</p>
+        <p>oklahomacity, 0.014841199168892847</p>
+
+
+        <h2> female poster - cluster 2 </h2>
+        <h3>(the "friends" cluster)</h3>
+        <h6> insights </h6>
+        <p> This cluster contains post written by women looking for friends. Many of the posts are categorized as women seeking multiple women, multiple men and women, trans men and women, or another woman. Words like 'movie' 'drink' 'friend' 'talk' indicate that these female posters are looking for friendship. The majority of posts in this cluster are tagged as "strictly platonic"
+        <h6> top terms </h6>
+        <p>
+        friend, hang, love, female, fun, time, meet, email, talk, interest, year, work, movie, thing, people, go, drink, hope, live, find
+        </p>
+        <h6> category distribution </h6>
+        <p> 804 posts tagged as "miscellaneous romance" </p>
+        <p> 1314 posts tagged as "strictly platonic" </p>
+        <h6> top types </h6>
+        <p>w4ww, 0.14102564102564102</p>
+        <p>w4mw, 0.12730806608357628</p>
+        <p>w4t, 0.099009900990099015</p>
+        <p>w4w, 0.08774056675253826</p>
+        <p>w4mm, 0.057142857142857141</p>
+        <p>w4m, 0.044483362521891417</p>
+        <h6> top cities </h6>
+        <p>lasvegas, 0.0063138744716143185</p>
+        <p>jacksonville, 0.0062374693695700601</p>
+        <p>miami, 0.0056550424128180964</p>
+        <p>dallas, 0.0056471041726896022</p>
+        <p>seattle, 0.0054900492856697234</p>
+        <p>denver, 0.0045109081961834984</p>
+        <p>sfbay, 0.0044614507856386874</p>
+        <p>newyork, 0.0042701911125878345</p>
       </section>
     </div>
 
-    
   </body>
 </html>
