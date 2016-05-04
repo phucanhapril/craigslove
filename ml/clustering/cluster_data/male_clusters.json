@@ -1,56 +1,69 @@
 {
 	"1": {
-		"cities": [
-			["newyork", 990],
-			["sfbay", 785],
-			["dallas", 646],
-			["washingtondc", 509],
-			["denver", 487],
-			["losangeles", 476],
-			["miami", 444],
-			["chicago", 389]
-		],
-		"terms": ["love", "fun", "friend", "time", "interest", "seek", "meet", "work", "nice", "enjoy", "white", "email", "open", "free", "thing", "find", "well", "great", "long", "play"],
-		"categories": [
-			["msr", 5015],
-			["stp", 935]
-		],
-		"types": [
-			["msr - m4w", 3208],
-			["msr - m4m", 1755],
+		"category_type": [
+			["msr - m4w", 3209],
+			["msr - m4m", 1764],
 			["stp - m4w", 732],
 			["stp - m4m", 164],
 			["msr - m4t", 36],
 			["stp - m4mw", 30],
-			["msr - m4mw", 11],
+			["msr - m4mw", 12],
 			["msr - m4ww", 5]
+		],
+		"cities": [
+			["oklahomacity", 0.014692787177203919],
+			["minneapolis", 0.013712477475497737],
+			["losangeles", 0.013566938763901136],
+			["denver", 0.013314013888129477],
+			["chicago", 0.013180515759312322],
+			["sfbay", 0.012830741675486444],
+			["dallas", 0.012508432109472873],
+			["providence", 0.012470675392023707]
+		],
+		"terms": ["love", "fun", "friend", "time", "interest", "seek", "meet", "work", "nice", "enjoy", "white", "email", "open", "free", "thing", "find", "well", "great", "long", "play"],
+		"categories": [
+			["msr", 5026],
+			["stp", 935]
+		],
+		"types": [
+			["m4ww", 0.035999999999999997],
+			["m4mw", 0.025609756097560974],
+			["m4w", 0.022342156434779159],
+			["m4t", 0.016752577319587628],
+			["m4mm", 0.011627906976744186],
+			["m4m", 0.0074692204582258274]
 		]
 	},
 	"2": {
-		"cities": [
-			["newyork", 661],
-			["sfbay", 555],
-			["washingtondc", 468],
-			["dallas", 435],
-			["denver", 311],
-			["miami", 303],
-			["losangeles", 284],
-			["chicago", 257]
-		],
-		"terms": ["host", "suck", "cock", "top", "bottom", "stat", "clean", "fuck", "discreet", "white", "play", "free", "travel", "nice", "fun", "love", "prefer", "email", "bodi", "open"],
-		"categories": [
-			["msr", 4025],
-			["stp", 25]
-		],
-		"types": [
-			["msr - m4m", 3919],
-			["msr - m4w", 97],
+		"category_type": [
+			["msr - m4m", 3910],
+			["msr - m4w", 96],
 			["stp - m4w", 13],
 			["stp - m4m", 10],
 			["msr - m4t", 8],
-			["msr - m4mw", 1],
 			["stp - m4mm", 1],
 			["stp - m4t", 1]
+		],
+		"cities": [
+			["jacksonville", 0.010692804633548674],
+			["washingtondc", 0.010088816073122359],
+			["sfbay", 0.0089880322396808602],
+			["providence", 0.0087665143844919118],
+			["chicago", 0.0085959885386819486],
+			["denver", 0.0085023784788670793],
+			["dallas", 0.0083261058109280143],
+			["newyork", 0.0081342833585606872]
+		],
+		"terms": ["host", "suck", "cock", "top", "bottom", "stat", "clean", "fuck", "discreet", "white", "play", "free", "travel", "nice", "fun", "love", "prefer", "email", "bodi", "open"],
+		"categories": [
+			["msr", 4014],
+			["stp", 25]
+		],
+		"types": [
+			["m4m", 0.015186381844525542],
+			["m4mm", 0.0058139534883720929],
+			["m4t", 0.0038659793814432991],
+			["m4w", 0.00061793835356278306]
 		]
 	}
 }

@@ -1,48 +1,6 @@
 {
 	"1": {
-		"cities": [
-			["newyork", 347],
-			["dallas", 293],
-			["sfbay", 274],
-			["miami", 210],
-			["seattle", 176],
-			["denver", 165],
-			["washingtondc", 136],
-			["losangeles", 125]
-		],
-		"terms": ["friend", "hang", "love", "femal", "fun", "meet", "time", "talk", "email", "interest", "year", "work", "movi", "thing", "peopl", "go", "drink", "hope", "live", "find"],
-		"categories": [
-			["stp", 1314],
-			["msr", 804]
-		],
-		"types": [
-			["stp - w4w", 710],
-			["msr - w4w", 465],
-			["stp - w4m", 435],
-			["msr - w4m", 338],
-			["stp - w4mw", 133],
-			["stp - w4ww", 22],
-			["stp - w4t", 10],
-			["stp - w4mm", 4]
-		]
-	},
-	"2": {
-		"cities": [
-			["newyork", 1636],
-			["sfbay", 1084],
-			["dallas", 920],
-			["washingtondc", 682],
-			["seattle", 639],
-			["losangeles", 567],
-			["miami", 543],
-			["denver", 496]
-		],
-		"terms": ["love", "time", "fun", "seek", "interest", "meet", "singl", "life", "pictur", "relationship", "femal", "work", "email", "thing", "attract", "real", "enjoy", "find", "ladi", "year"],
-		"categories": [
-			["msr", 6217],
-			["stp", 1665]
-		],
-		"types": [
+		"category_type": [
 			["msr - w4m", 3835],
 			["msr - w4w", 2356],
 			["stp - w4m", 849],
@@ -51,6 +9,64 @@
 			["stp - w4ww", 22],
 			["stp - w4t", 20],
 			["msr - w4mw", 15]
+		],
+		"cities": [
+			["newyork", 0.020132658963094227],
+			["jacksonville", 0.020049008687903765],
+			["seattle", 0.019932622122403144],
+			["dallas", 0.017731521634383733],
+			["sfbay", 0.017650411137344297],
+			["losangeles", 0.016126738530674933],
+			["lasvegas", 0.015303119482048263],
+			["oklahomacity", 0.014841199168892847]
+		],
+		"terms": ["love", "time", "fun", "seek", "interest", "meet", "singl", "life", "pictur", "relationship", "femal", "work", "email", "thing", "attract", "real", "enjoy", "find", "ladi", "year"],
+		"categories": [
+			["msr", 6217],
+			["stp", 1665]
+		],
+		"types": [
+			["w4m", 0.27343841214244019],
+			["w4t", 0.23762376237623761],
+			["w4w", 0.22223064100621306],
+			["w4mm", 0.21428571428571427],
+			["w4mw", 0.19436345966958213],
+			["w4ww", 0.16666666666666666]
+		]
+	},
+	"2": {
+		"category_type": [
+			["stp - w4w", 710],
+			["msr - w4w", 465],
+			["stp - w4m", 435],
+			["msr - w4m", 338],
+			["stp - w4mw", 133],
+			["stp - w4ww", 22],
+			["stp - w4t", 10],
+			["stp - w4mm", 4]
+		],
+		"cities": [
+			["lasvegas", 0.0063138744716143185],
+			["jacksonville", 0.0062374693695700601],
+			["miami", 0.0056550424128180964],
+			["dallas", 0.0056471041726896022],
+			["seattle", 0.0054900492856697234],
+			["denver", 0.0045109081961834984],
+			["sfbay", 0.0044614507856386874],
+			["newyork", 0.0042701911125878345]
+		],
+		"terms": ["friend", "hang", "love", "femal", "fun", "meet", "time", "talk", "email", "interest", "year", "work", "movi", "thing", "peopl", "go", "drink", "hope", "live", "find"],
+		"categories": [
+			["stp", 1314],
+			["msr", 804]
+		],
+		"types": [
+			["w4ww", 0.14102564102564102],
+			["w4mw", 0.13022351797862003],
+			["w4t", 0.099009900990099015],
+			["w4w", 0.089028640703136833],
+			["w4mm", 0.057142857142857141],
+			["w4m", 0.04512551079976649]
 		]
 	}
 }

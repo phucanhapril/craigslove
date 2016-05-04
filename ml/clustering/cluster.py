@@ -1,4 +1,3 @@
-
 import os
 import sys
 import csv
@@ -32,11 +31,30 @@ stopwords = ['guy', 'guys', 'girl', 'girls', 'woman', 'women', 'man', 'men', 'pi
 
 stemmer = SnowballStemmer("english")
 
+post_counts_city = {}
+post_counts_city['chicago'] = 29665
+post_counts_city['dallas'] = 51885
+post_counts_city['denver'] = 36578
+post_counts_city['jacksonville'] = 8978
+post_counts_city['lasvegas'] = 18689
+post_counts_city['losangeles'] = 35159
+post_counts_city['miami'] = 37135
+post_counts_city['minneapolis'] = 22753
+post_counts_city['newyork'] = 81261
+post_counts_city['oklahomacity'] = 6738
+post_counts_city['providence'] = 8099
+post_counts_city['seattle'] = 32058
+post_counts_city['sfbay'] = 61415
+post_counts_city['washingtondc'] = 46388
+
+post_counts_type = {}
+
 def cluster(data_file, num_clusters):
 	# read posts from file
 	texts = []
 	cities = []
 	categories = []
+	category_types = []
 	types = []
 	with open(data_file, 'r') as f:
 		csv_reader = csv.reader(f)
@@ -45,7 +63,8 @@ def cluster(data_file, num_clusters):
 			texts.append(line[0].decode('utf8'))
 			cities.append(line[1])
 			categories.append(line[2])
-			types.append(line[2] + ' - ' + line[3])
+			types.append(line[3])
+			category_types.append(line[2] + ' - ' + line[3])
 	print 'read ' + str(len(texts)) + ' posts'
 
 	#define vectorizer parameters
@@ -81,9 +100,9 @@ def cluster(data_file, num_clusters):
 	clusters = km.labels_.tolist()
 
 
-	posts = {'category': categories, 'type': types, 'city': cities, 'text': texts, 'cluster': clusters }
+	posts = {'category': categories, 'type': types, 'category_type' : category_types, 'city': cities, 'text': texts, 'cluster': clusters }
 
-	frame = pd.DataFrame(posts, index = [clusters] , columns = ['cluster', 'category', 'type', 'city', 'text'])
+	frame = pd.DataFrame(posts, index = [clusters] , columns = ['cluster', 'category', 'type', 'category_type', 'city', 'text'])
 
 	order_centroids = km.cluster_centers_.argsort()[:, ::-1]
 
@@ -103,7 +122,18 @@ def cluster(data_file, num_clusters):
 		
 		# top types (ie m4m, m4w)
 		cluster_types = frame.ix[i]['type'].values.tolist()
-		cluster_json['types'] = [x for x in pd.value_counts(cluster_types)[:NUM_TOP_FIELDS].iteritems()]
+		#print cluster_types
+		# NORMALIZE
+		normalized_typecounts = []
+		for t,count in pd.value_counts(cluster_types).iteritems():
+			normalized_typecounts.append((t, count/float(post_counts_type[t])))
+		cluster_json['types'] = sorted(normalized_typecounts, key=lambda tup: tup[1], reverse=True)[:NUM_TOP_FIELDS]
+		#[x for x in pd.value_counts(cluster_types)[:NUM_TOP_FIELDS].iteritems()]
+
+		# tope category-types
+		cluster_category_types = frame.ix[i]['category_type'].values.tolist()
+		cluster_json['category_type'] = [x for x in pd.value_counts(cluster_category_types)[:NUM_TOP_FIELDS].iteritems()]
+
 
 		# top categories (msr or stp)
 		cluster_categories = frame.ix[i]['category'].values.tolist()
@@ -111,7 +141,13 @@ def cluster(data_file, num_clusters):
 
 		# top cities
 		cluster_cities = frame.ix[i]['city'].values.tolist()
-		cluster_json['cities'] = [x for x in pd.value_counts(cluster_cities)[:NUM_TOP_FIELDS].iteritems()]
+		# NORMALIZE
+		normalized_cities = []
+		for t,count in pd.value_counts(cluster_cities).iteritems():
+			normalized_cities.append((t, count/float(post_counts_city[t])))
+		cluster_json['cities'] = sorted(normalized_cities, key=lambda tup: tup[1], reverse=True)[:NUM_TOP_FIELDS]
+
+		#cluster_json['cities'] = [x for x in pd.value_counts(cluster_cities)[:NUM_TOP_FIELDS].iteritems()]
 
 		clusters_as_json[str(i+1)] = cluster_json
 
@@ -142,6 +178,12 @@ def main():
 	# add english language stopwords from file
 	with open('stopwords.txt') as f:
 		stopwords.extend(f.read().splitlines())
+
+	with open('post_count_by_type.csv', 'r') as in_file:
+		reader = csv.reader(in_file)
+		for row in reader:
+			post_counts_type[row[0]] = row[1]
+
 
 	# process entire directory of csv files
 	if os.path.isdir(opts.path):
