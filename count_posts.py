@@ -67,7 +67,7 @@ def main():
 
 	if os.path.isdir(sys.argv[1]):
 		#count_by_field(sys.argv[1])
-		#count_by_city(sys.argv[1])
+		count_by_city(sys.argv[1])
 		pass
 	else:
 		print sys.argv[1] + ' is not a directory'

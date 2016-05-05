@@ -7,10 +7,6 @@ get random sample of n posts from data/gender/female.csv
 and data/gender/male.csv
 """
 
-stopwords = []
-
-stemmer = SnowballStemmer("english")
-
 def write_sample(in_path, out_path, n):
 	# count num rows
 	row_count = 0
@@ -34,6 +30,10 @@ def main():
 	n = 10000
 	write_sample('data/gender/female.csv', 'data/gender/sample/female.csv', n)
 	write_sample('data/gender/male.csv', 'data/gender/sample/male.csv', n)
+
+	n = 1000
+	write_sample('data/gender/female.csv', 'data/gender/sample/small/female.csv', n)
+	write_sample('data/gender/male.csv', 'data/gender/sample/small/male.csv', n)
 
 
 if __name__ == '__main__':

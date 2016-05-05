@@ -1,6 +1,7 @@
 import os
 import sys
 import csv
+import string
 """
 remove duplicate postings form csv files
 
@@ -12,21 +13,36 @@ ex: python remove_duplicates.py results/providence
 
 
 """
+def jaccard_similarity(wordset1, wordset2):
+    x = len(wordset1.intersection(wordset2))
+    y = len(wordset1.union(wordset2))
+    return x / float(y)
+
+def normalize(s):
+    for p in string.punctuation:
+        s = s.replace(p, '')
+    return s.lower().strip()
+
 def remove_dups(csv_file):
 	outfilename = 'temp.csv'
 	with open(csv_file,'r') as in_file, open(outfilename,'w') as out_file:
 		seen = set()
+		seen_texts = set()
 		csv_writer = csv.writer(out_file)
 		csv_reader = csv.reader(in_file)
 		dup_count = 0
 		for line in csv_reader:
-			# first item is the unique url
-			if line[0] in seen:
+			url = line[0]
+			text = line[8]
+			if url in seen:
 				dup_count += 1
-				continue # skip duplicate
-
-			seen.add(line[0])
-			csv_writer.writerow(line)
+			elif normalize(text) in seen_texts:
+				# TODO jaccard or something; still missing some posters re-posting similar messages
+				dup_count += 1
+			else:
+				seen.add(url)
+				seen_texts.add(normalize(text))
+				csv_writer.writerow(line)
 
 	print csv_file + ': ' + str(dup_count) + ' duplicate rows removed'
 	# delete old file

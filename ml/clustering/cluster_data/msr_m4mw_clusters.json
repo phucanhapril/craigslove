@@ -1,0 +1,68 @@
+{
+	"1": {
+		"category_type": [
+			["msr - m4mw", 62]
+		],
+		"cities": [
+			["chicago", 0.0010450025282319232],
+			["seattle", 0.00015596730925198079],
+			["newyork", 0.00013536628887166044],
+			["sfbay", 0.00011397866970609785],
+			["denver", 5.4677675105254521e-05],
+			["miami", 5.3857546788743775e-05],
+			["lasvegas", 5.350741077639253e-05],
+			["minneapolis", 4.3950248318903001e-05]
+		],
+		"terms": ["curious", "bi", "coupl", "seek", "safe", "attract", "clean", "discreet", "submiss", "interest", "discret", "serious", "friend", "respect", "fit", "mind", "fun", "play", "meet", "experi"],
+		"categories": [
+			["msr", 62]
+		],
+		"types": [
+			["m4mw", 0.037804878048780487]
+		]
+	},
+	"3": {
+		"category_type": [
+			["msr - m4mw", 188]
+		],
+		"cities": [
+			["sfbay", 0.00074900268664007165],
+			["minneapolis", 0.00074715422142135107],
+			["denver", 0.0007108097763683088],
+			["oklahomacity", 0.00059364796675571388],
+			["jacksonville", 0.00055691690799732681],
+			["lasvegas", 0.00053507410776392535],
+			["dallas", 0.00044328804085959334],
+			["chicago", 0.0003708073487274566]
+		],
+		"terms": ["coupl", "seek", "male", "relationship", "interest", "experi", "open", "real", "time", "profession", "white", "well", "love", "enjoy", "long", "mind", "hope", "clean", "friend", "singl"],
+		"categories": [
+			["msr", 188]
+		],
+		"types": [
+			["m4mw", 0.11463414634146342]
+		]
+	},
+	"2": {
+		"category_type": [
+			["msr - m4mw", 197]
+		],
+		"cities": [
+			["denver", 0.00087484280168407234],
+			["oklahomacity", 0.00074205995844464233],
+			["dallas", 0.00063602197166811214],
+			["sfbay", 0.00063502401693397374],
+			["providence", 0.00061736016792196568],
+			["lasvegas", 0.0005885815185403178],
+			["minneapolis", 0.00039555223487012701],
+			["losangeles", 0.00036974885520065984]
+		],
+		"terms": ["fun", "coupl", "watch", "play", "wife", "friend", "free", "bi", "clean", "place", "white", "sex", "love", "time", "meet", "year", "nice", "real", "discreet", "diseas"],
+		"categories": [
+			["msr", 197]
+		],
+		"types": [
+			["m4mw", 0.12012195121951219]
+		]
+	}
+}
