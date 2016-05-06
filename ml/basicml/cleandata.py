@@ -22,10 +22,10 @@ def main():
     statusindex = 0
 
     with open ('cleanresults.csv', 'wb') as w:
-        for location in os.listdir('../results'):
-            for filename in os.listdir('../results/'+location):
+        for location in os.listdir('../../results'):
+            for filename in os.listdir('../../results/'+location):
                 if filename[-4:]=='.csv':
-                    with open('../results/'+location+'/'+filename) as r:
+                    with open('../../results/'+location+'/'+filename) as r:
                         reader = csv.reader(r)
                         writer = csv.writer(w)
                         for row in reader:
