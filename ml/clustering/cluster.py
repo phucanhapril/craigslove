@@ -25,9 +25,14 @@ from nltk.stem.snowball import SnowballStemmer
 reload(sys)
 sys.setdefaultencoding("utf-8")
 """
-first create data using format_data.py
+first create data/ using format_data.py
 
-cluster.py will output clusters in json format to the cluster_data/ directory
+example to run:
+python cluster.py -path data/city/sample/providence.csv -c 2 -plot True
+or
+python cluster.py -path data/city/sample -c 2 -plot True
+
+saves output to cluster_data/
 """
 
 
@@ -38,7 +43,7 @@ stopwords = ['male', 'female', 'guy', 'guys', 'girl', 'girls', 'woman', 'women',
 
 stemmer = SnowballStemmer("english")
 
-def cluster(data_file, num_clusters):
+def cluster(data_file, num_clusters, plot_flag):
 	# read posts from file
 	texts = []
 	cities = []
@@ -77,8 +82,8 @@ def cluster(data_file, num_clusters):
 
 	#define vectorizer parameters
 	t1 = time.clock()
-	tfidf_vectorizer = TfidfVectorizer(max_df=0.8, max_features=200000,
-									 min_df=0.1, #stop_words=stopwords,
+	tfidf_vectorizer = TfidfVectorizer(max_df=0.9, max_features=200000,
+									 min_df=0.05, #stop_words=stopwords,
 									 use_idf=True, tokenizer=tokenize)#, ngram_range=(1))
 
 	tfidf_matrix = tfidf_vectorizer.fit_transform(texts) #fit the vectorizer to texts
@@ -146,7 +151,7 @@ def cluster(data_file, num_clusters):
 		cluster_json['terms'] = top_terms
 		
 		# cluster 'name' for plotting
-		cluster_names[i] = '{}, {}, {}'.format(top_terms[0], top_terms[1], top_terms[2])
+		cluster_names[i] = '{}, {}, {}, {}'.format(top_terms[0], top_terms[1], top_terms[2], top_terms[3])
 		print cluster_names[i]
 		
 		for p in posts.keys():
@@ -157,14 +162,15 @@ def cluster(data_file, num_clusters):
 
 
 	##### SAVE TO FILE ####
+
 	out_file = get_cluster_filename_from_csv(data_file, num_clusters)
 	print 'saving to {}'.format(out_file)
 	with open(out_file, 'w') as f:
 		json.dump(clusters_as_json, f)
 
 	##### PLOT #####
-	plotting = True
-	if plotting:
+
+	if plot_flag:
 
 		# we're plotting the cosine similarities!
 		print 'PLOTTING'
@@ -177,9 +183,13 @@ def cluster(data_file, num_clusters):
 		xs, ys = pos[:, 0], pos[:, 1]
 
 		cluster_colors = {}
+		chosen_colors = [ '#00b159', '#f37735', '#00aedb', '#ffc425', '#d11141']
 		r = lambda: random.randint(0,255)
 		for n in range(num_clusters):
-			cluster_colors[n] = '#%02X%02X%02X' % (r(),r(),r())
+			if n < len(chosen_colors):
+				cluster_colors[n] = chosen_colors[n]
+			else:
+				cluster_colors[n] = '#%02X%02X%02X' % (r(),r(),r())
 
 		df = pd.DataFrame(dict(x=xs, y=ys, label=clusters))#, type=titles)) 
 
@@ -243,15 +253,16 @@ def tokenize(text):
 	return filtered_tokens
 
 def get_cluster_filename_from_csv(csv_file_name, n):
-	return 'cluster_data/{}_{}_clusters.json'.format(csv_file_name.split('/')[-1:][0][:-4], n)
+	return 'cluster_data/cities_2means/{}_{}_clusters.json'.format(csv_file_name.split('/')[-1:][0][:-4], n)
 
 def get_plot_filename_from_csv(csv_file_name, n):
-	return 'cluster_plot/{}_{}_clusters.png'.format(csv_file_name.split('/')[-1:][0][:-4], n)
+	return 'cluster_plot/cities_2means/{}_{}_clusters.png'.format(csv_file_name.split('/')[-1:][0][:-4], n)
 
 def main():
 	parser = argparse.ArgumentParser()
 	parser.add_argument('-path', required=True, help='either a csv file OR a directory containing csv files')
 	parser.add_argument('-c', required=True, help='number of clusters')
+	parser.add_argument('-plot', required=False, help='plot data and save png')
 	opts = parser.parse_args()
 
 	num_clusters = int(opts.c)
@@ -265,12 +276,12 @@ def main():
 		for f in os.listdir(opts.path):
 			if f.endswith('.csv'): 
 				file_path = os.path.join(opts.path, f)
-				cluster(file_path, num_clusters)
+				cluster(file_path, num_clusters, opts.plot)
 
 
 	# process only one csv file
 	elif os.path.isfile(opts.path) and opts.path.endswith('.csv'):
-		cluster(opts.path, num_clusters)
+		cluster(opts.path, num_clusters, opts.plot)
 
 
 
