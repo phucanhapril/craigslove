@@ -22,6 +22,8 @@ def get_rows_to_save(line):
 	category = line[5]
 	posttype = line[6].lower()
 	age = line[9]
+	if age and int(age) > 90:
+		age = ''
 	body = line[10]
 	status = line[36]
 	zodiac = line[38]

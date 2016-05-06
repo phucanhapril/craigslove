@@ -8,22 +8,18 @@ import time
 import argparse
 import pandas as pd
 import numpy as np
-
 import random
-from sklearn.decomposition import PCA
-from collections import defaultdict,Counter
+
+from collections import defaultdict, Counter
 
 import matplotlib.pyplot as plt
-import matplotlib as mpl
-
-from sklearn.manifold import MDS
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.cluster import KMeans, MiniBatchKMeans
 from sklearn.externals import joblib
+from sklearn.decomposition import RandomizedPCA, PCA
 from nltk.stem.snowball import SnowballStemmer
-from sklearn.decomposition import RandomizedPCA
 
 
 reload(sys)
@@ -37,8 +33,8 @@ cluster.py will output clusters in json format to the cluster_data/ directory
 
 # reference: http://brandonrose.org/clustering
 
-# which words are not interesting?
-stopwords = ['guy', 'guys', 'girl', 'girls', 'woman', 'women', 'man', 'men', 'pics', 'pic', 'send', 'reply', 'good', 'age']
+# which words are not interesting?	
+stopwords = ['male', 'female', 'guy', 'guys', 'girl', 'girls', 'woman', 'women', 'man', 'men', 'year', 'age', 'good', 'send', 'seek','seeking', 'find', 'thing', 'go' ,'great', 'time', 'email', 'subject', 'reply']#, 'send', 'reply', 'good', 'time', 'age', 'thing', 'seek', 'find']
 
 stemmer = SnowballStemmer("english")
 
@@ -67,7 +63,7 @@ def cluster(data_file, num_clusters):
 			ages.append(age)
 			bodies.append(body)
 			statuses.append(status)
-	print 'read ' + str(len(texts)) + ' posts'
+	print 'read {} posts from {}'.format(len(texts), data_file)
 
 	# for normalizing later
 	totals = {}
@@ -83,7 +79,7 @@ def cluster(data_file, num_clusters):
 	t1 = time.clock()
 	tfidf_vectorizer = TfidfVectorizer(max_df=0.8, max_features=200000,
 									 min_df=0.1, #stop_words=stopwords,
-									 use_idf=True, tokenizer=tokenize, ngram_range=(1,3))
+									 use_idf=True, tokenizer=tokenize)#, ngram_range=(1))
 
 	tfidf_matrix = tfidf_vectorizer.fit_transform(texts) #fit the vectorizer to texts
 	t2 = time.clock()
@@ -94,12 +90,9 @@ def cluster(data_file, num_clusters):
 	
 	print terms
 
-	dist = 1 - cosine_similarity(tfidf_matrix)
-	#print dist
-	
 	t3 = time.clock()
-	km = MiniBatchKMeans(n_clusters=num_clusters, init='k-means++', n_init=1, init_size=1000, batch_size=1000, verbose=True)
-
+	
+	km = MiniBatchKMeans(n_clusters=num_clusters, init='k-means++', batch_size=1000, verbose=True)
 	# km = KMeans(n_clusters=num_clusters, init='k-means++', max_iter=100, n_init=1,
 	#            verbose=True))
 	km.fit(tfidf_matrix)
@@ -122,24 +115,22 @@ def cluster(data_file, num_clusters):
 
 	order_centroids = km.cluster_centers_.argsort()[:, ::-1]
 
-
+	# print top grams
 	features_by_gram = defaultdict(list)
 	for f, w in zip(tfidf_vectorizer.get_feature_names(), tfidf_vectorizer.idf_):
 		features_by_gram[len(f.split(' '))].append((f, w))
-	top_n = 3
+	top_n = 5
 	for gram, features in features_by_gram.iteritems():
 		top_features = sorted(features, key=lambda x: x[1], reverse=True)[:top_n]
 		top_features = [f[0] for f in top_features]
 		print '{}-gram top:'.format(gram), top_features
 
-	print order_centroids
-
 	# convert clusters to json objects
 
 	clusters_as_json = {}
 
-	NUM_TOP_TERMS = 20
-	NUM_TOP_FIELDS = 8
+	NUM_TOP_TERMS = 40
+	NUM_TOP_FIELDS = 20
 
 	# for plotting
 	cluster_names = {}
@@ -148,7 +139,6 @@ def cluster(data_file, num_clusters):
 	for i in range(num_clusters):
 		cluster_json = {}
 
-		#print order_centroids
 		cluster_json['num_posts'] = len(frame.ix[i])
 
 		# top terms
@@ -156,7 +146,7 @@ def cluster(data_file, num_clusters):
 		cluster_json['terms'] = top_terms
 		
 		# cluster 'name' for plotting
-		cluster_names[i] = top_terms[0] + " " + top_terms[1] + " " + top_terms[2]
+		cluster_names[i] = '{}, {}, {}'.format(top_terms[0], top_terms[1], top_terms[2])
 		print cluster_names[i]
 		
 		for p in posts.keys():
@@ -167,22 +157,23 @@ def cluster(data_file, num_clusters):
 
 
 	##### SAVE TO FILE ####
-
-	with open(get_cluster_filename_from_csv(data_file, num_clusters), 'w') as outfile:
-		json.dump(clusters_as_json, outfile)
+	out_file = get_cluster_filename_from_csv(data_file, num_clusters)
+	print 'saving to {}'.format(out_file)
+	with open(out_file, 'w') as f:
+		json.dump(clusters_as_json, f)
 
 	##### PLOT #####
 	plotting = True
 	if plotting:
-		MDS()
 
-		# convert two components as we're plotting points in a two-dimensional plane
-		# "precomputed" because we provide a distance matrix
-		# we will also specify `random_state` so the plot is reproducible.
-		mds = MDS(n_components=2, dissimilarity="precomputed", random_state=1)
+		# we're plotting the cosine similarities!
+		print 'PLOTTING'
+		cos = cosine_similarity(tfidf_matrix.astype(np.float64))
+		print cos.shape
+		dist = 1 - cos
 
-		pos = mds.fit_transform(dist)
-
+		pca = PCA(n_components=2)
+		pos = pca.fit_transform(dist.astype(np.float64))
 		xs, ys = pos[:, 0], pos[:, 1]
 
 		cluster_colors = {}
@@ -190,41 +181,39 @@ def cluster(data_file, num_clusters):
 		for n in range(num_clusters):
 			cluster_colors[n] = '#%02X%02X%02X' % (r(),r(),r())
 
-		#create data frame that has the result of the MDS plus the cluster numbers and titles
-		df = pd.DataFrame(dict(x=xs, y=ys, label=clusters, type=category_types)) 
+		df = pd.DataFrame(dict(x=xs, y=ys, label=clusters))#, type=titles)) 
 
 		#group by cluster
 		groups = df.groupby('label')
 
 		# set up plot
 		fig, ax = plt.subplots(figsize=(17, 9)) # set size
-		ax.margins(0.05) # Optional, just adds 5% padding to the autoscaling
+		ax.margins(0.05)
 
-		#iterate through groups to layer the plot
-		#note that I use the cluster_name and cluster_color dicts with the 'name' lookup to return the appropriate color/label
 		for name, group in groups:
 			ax.plot(group.x, group.y, marker='o', linestyle='', ms=12, 
 					label=cluster_names[name], color=cluster_colors[name], 
 					mec='none')
 			ax.set_aspect('auto')
+			# turn off x and y axes
 			ax.tick_params(\
-				axis= 'x',          # changes apply to the x-axis
-				which='both',      # both major and minor ticks are affected
-				bottom='off',      # ticks along the bottom edge are off
-				top='off',         # ticks along the top edge are off
+				axis= 'x',
+				which='both',
+				bottom='off',
+				top='off',
 				labelbottom='off')
 			ax.tick_params(\
-				axis= 'y',         # changes apply to the y-axis
-				which='both',      # both major and minor ticks are affected
-				left='off',      # ticks along the bottom edge are off
-				top='off',         # ticks along the top edge are off
+				axis= 'y',
+				which='both',
+				left='off',
+				top='off',
 				labelleft='off')
 			
 		ax.legend(numpoints=1)  #show legend with only 1 point
 
-		#add label in x,y position with the label as the film title
-		for i in range(len(df)):
-			ax.text(df.ix[i]['x'], df.ix[i]['y'], df.ix[i]['type'], size=8)  
+		#add labels to each point
+		# for i in range(len(df)):
+		# 	ax.text(df.ix[i]['x'], df.ix[i]['y'], df.ix[i]['type'], size=8)  
 			
 		#plt.show()
 		plt.savefig(get_plot_filename_from_csv(data_file, num_clusters), dpi=200)
@@ -241,17 +230,23 @@ def tokenize(text):
 	filtered_tokens = []
 	# filter out any tokens not containing letters (raw punctuation)
 	for token in tokens:
-		if re.search('[a-zA-Z0-9]', token):
+		# the only numerical word that we want to keep is 420. The rest are ages, heights, weights, etc
+		if re.search('[a-zA-Z]', token) or token == '420':
 			if token not in stopwords:
-				filtered_tokens.append(stemmer.stem(token))
+				stem = stemmer.stem(token)
+				if stem not in stopwords:
+					if stem == 'pictur':
+						stem = 'pic' # group these together because they both appear a lot and mean the same thing
+					filtered_tokens.append(stem)
+				#else:
+				#	print token + ' ' + stem
 	return filtered_tokens
 
 def get_cluster_filename_from_csv(csv_file_name, n):
-	return 'cluster_data/' + csv_file_name.split('/')[-1:][0][:-4] + '_' + str(n) + '_clusters.json'
+	return 'cluster_data/{}_{}_clusters.json'.format(csv_file_name.split('/')[-1:][0][:-4], n)
 
 def get_plot_filename_from_csv(csv_file_name, n):
-	return 'cluster_plot/' + csv_file_name.split('/')[-1:][0][:-4] + '_' + str(n) + '_clusters.png'
-
+	return 'cluster_plot/{}_{}_clusters.png'.format(csv_file_name.split('/')[-1:][0][:-4], n)
 
 def main():
 	parser = argparse.ArgumentParser()
