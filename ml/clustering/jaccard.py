@@ -53,18 +53,52 @@ def main():
         love_to_love_similarity_by_city[city1] = cumulative_love_to_love_similarity / num_cities
         sex_to_sex_similarity_by_city[city1] = cumulative_sex_to_sex_similarity / num_cities
     
-    # for city in sorted(love_to_sex_similarity_by_city, key=love_to_sex_similarity_by_city.get, reverse=True):
-    #    print city, love_to_sex_similarity_by_city[city]
+    rescale(love_to_sex_similarity_by_city, False)
+    rescale(sex_to_love_similarity_by_city, False)
+    rescale(love_to_love_similarity_by_city, True)
+    rescale(sex_to_sex_similarity_by_city, True)
     
-    # for city in sorted(sex_to_love_similarity_by_city, key=sex_to_love_similarity_by_city.get, reverse=True):
-    #    print city, sex_to_love_similarity_by_city[city]
+    print 'how similar each city\'s love posts are to other cities\' sex posts'
+    for city in sorted(love_to_sex_similarity_by_city, key=love_to_sex_similarity_by_city.get, reverse=True):
+        print city, love_to_sex_similarity_by_city[city]
+
+    print
     
-    # for city in sorted(sex_to_sex_similarity_by_city, key=sex_to_sex_similarity_by_city.get, reverse=True):
-    #    print city, sex_to_sex_similarity_by_city[city]
+    print 'how similar each city\'s sex posts are to other cities\' love posts'
+    for city in sorted(sex_to_love_similarity_by_city, key=sex_to_love_similarity_by_city.get, reverse=True):
+        print city, sex_to_love_similarity_by_city[city]
     
+    print
+    
+    print 'uniqueness of each city\'s sex posts'
+    for city in sorted(sex_to_sex_similarity_by_city, key=sex_to_sex_similarity_by_city.get, reverse=True):
+        print city, sex_to_sex_similarity_by_city[city]
+    
+    print
+    
+    print 'uniqueness of each city\'s love posts'
     for city in sorted(love_to_love_similarity_by_city, key=love_to_love_similarity_by_city.get, reverse=True):
         print city, love_to_love_similarity_by_city[city]
-                
+
+def rescale(dictionary_by_city, invert):
+    min = 1.0
+    max = 0.0
+    
+    for city in dictionary_by_city:
+        if dictionary_by_city[city] > max:
+            max = dictionary_by_city[city]
+        
+        if dictionary_by_city[city] < min:
+            min = dictionary_by_city[city]
+    
+    scaling_factor = 0.6 / (max - min)
+    
+    for city in dictionary_by_city:
+        dictionary_by_city[city] = 0.2 + (dictionary_by_city[city] - min) * scaling_factor
+        
+        if invert:
+            dictionary_by_city[city] = 1 - dictionary_by_city[city]
+        
 def jaccard_similarity_score(cluster1, cluster2):
     set1 = set(cluster1)
     set2 = set(cluster2)
