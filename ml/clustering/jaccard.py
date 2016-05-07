@@ -84,6 +84,9 @@ def rescale(dictionary_by_city, invert):
     min = 1.0
     max = 0.0
     
+    scale_min = float(sys.argv[2])
+    scale_max = float(sys.argv[3])
+    
     for city in dictionary_by_city:
         if dictionary_by_city[city] > max:
             max = dictionary_by_city[city]
@@ -91,13 +94,13 @@ def rescale(dictionary_by_city, invert):
         if dictionary_by_city[city] < min:
             min = dictionary_by_city[city]
     
-    scaling_factor = 0.6 / (max - min)
+    scaling_factor = (scale_max - scale_min) / (max - min)
     
     for city in dictionary_by_city:
-        dictionary_by_city[city] = 0.2 + (dictionary_by_city[city] - min) * scaling_factor
+        dictionary_by_city[city] = scale_min + (dictionary_by_city[city] - min) * scaling_factor
         
         if invert:
-            dictionary_by_city[city] = 1 - dictionary_by_city[city]
+            dictionary_by_city[city] = scale_max - dictionary_by_city[city] + scale_min
         
 def jaccard_similarity_score(cluster1, cluster2):
     set1 = set(cluster1)
