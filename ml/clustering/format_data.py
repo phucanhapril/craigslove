@@ -136,8 +136,8 @@ def by_gender():
 def main():
 	#by_city()
 	#by_field('type', 6)
-	#by_gender()
-	by_category_and_type()
+	by_gender()
+	#by_category_and_type()
 
 if __name__ == '__main__':
 	main()
