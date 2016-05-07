@@ -309,6 +309,7 @@ mug
 must
 my
 myself
+'n
 n
 na
 name
@@ -498,7 +499,9 @@ such
 sufficiently
 suggest
 sup
-sure	t
+sure
+'t
+t
 take
 taken
 taking
@@ -609,6 +612,7 @@ we
 wed
 welcome
 we'll
+well
 went
 we're
 were
