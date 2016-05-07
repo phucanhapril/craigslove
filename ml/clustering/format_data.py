@@ -111,7 +111,6 @@ def by_category_and_type():
 split up all posts into those posted by males (for anyone) and those posted by females (for anyone)
 * this excludes posts coming from two people (ie mw4m, mm4m, etc)
 * this includes both platonic and romantic postss
-
 """
 def by_gender():
 	male = []
