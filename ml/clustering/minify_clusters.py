@@ -8,7 +8,7 @@ group all clutsres from each city into a single file and save it
 then we can go through manually and attach titles
 """
 
-OUTPUT_FILE = 'cluster_data/all_city_clusters.json'
+OUTPUT_FILE = 'cluster_data/all_city_clusters_m.json'
 INPUT_DIR = 'cluster_data/cities_2means'
 
 def main():
