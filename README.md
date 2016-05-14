@@ -25,5 +25,7 @@ __`python cluster.py -path data/city/sample -c 2 -plot True`__
 This will perform 2-means clustering on each csv file in __`data/city/sample`__.  
 The resulting clusters in json format are saved to __`cluster_data/`__.  
 It will also create 2-dimensional scatter plots representing the clusters, saved to __`cluster_plot/`__.  
-
-##### CODE REFERENCED: http://brandonrose.org/clustering
+  
+note: __`ml/clustering/data/`__ is populated from the original raw __`posts/`__ by running __`ml/clustering/util/format_posts_for_clustering.py`__.  
+  
+##### CODE REFERENCED: http://brandonrose.org/clustering  
