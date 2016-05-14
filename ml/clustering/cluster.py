@@ -23,8 +23,6 @@ sys.setdefaultencoding("utf-8")
 
 """
 
-First, create data/ by running util/format_posts_for_clustering.py
-
 To run this file:
 
 (1) on a single csv file:
@@ -41,6 +39,8 @@ Use -c flag to indicate the number of clusters
 
 
 **** CODE REFERENCED: http://brandonrose.org/clustering ****
+
+note: first, create data/ by running util/format_posts_for_clustering.py
 
 """
 
