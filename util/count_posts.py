@@ -1,10 +1,11 @@
 import os
 import sys
 import csv
-"""
-count the total number of posts in the results/ firectory
 
-python count_posts.py results/
+"""
+count the total number of posts in the posts/ directory
+
+python count_posts.py posts/
 
 """
 
@@ -62,13 +63,12 @@ def count_by_city(results_dir):
 
 def main():
 	if len(sys.argv) < 2:
-		print 'Usage: python count_posts.py results/'
+		print 'Usage: python count_posts.py posts/'
 		return
 
 	if os.path.isdir(sys.argv[1]):
-		#count_by_field(sys.argv[1])
+		count_by_field(sys.argv[1])
 		count_by_city(sys.argv[1])
-		pass
 	else:
 		print sys.argv[1] + ' is not a directory'
 

@@ -9,7 +9,7 @@ def main():
 
     mostFrequentWords = {}
 
-    with open('results/newyork/m4w.csv', 'r') as m4wListings:
+    with open('posts/newyork/m4w.csv', 'r') as m4wListings:
         m4wreader = csv.reader(m4wListings)
         for row in m4wreader:
             for column in row:
@@ -27,7 +27,7 @@ def main():
     sorted_mostFrequent = sorted(mostFrequentWords.items(), key=operator.itemgetter(1), reverse=True)
     printnum = 0;
 
-    with open('results/newyork/mostFrequentWordsm4w.txt', 'w') as writer:
+    with open('posts/newyork/mostFrequentWordsm4w.txt', 'w') as writer:
         while printnum < 100:
             writer.write(sorted_mostFrequent[printnum][0]+", "+str(sorted_mostFrequent[printnum][1])+ '\n')
             printnum = printnum + 1

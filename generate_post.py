@@ -14,7 +14,7 @@ posttype = ['m4m', 'm4w', 'msr', 'stp', 'w4m', 'w4w']
 
 def main():
     for location in locations:
-        with open('results/' + location + '/w4w.csv') as f:
+        with open('posts/' + location + '/w4w.csv') as f:
             reader = csv.reader(f)
             entries = []
             

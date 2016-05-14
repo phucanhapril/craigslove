@@ -13,10 +13,10 @@ def main():
     statusindex = 0
 
 
-    for location in os.listdir('../results'):
-        for filename in os.listdir('../results/'+location):
+    for location in os.listdir('../posts'):
+        for filename in os.listdir('../posts/'+location):
             if filename[-4:]=='.csv':
-                with open('../results/'+location+'/'+filename) as r:
+                with open('../posts/'+location+'/'+filename) as r:
                     reader = csv.reader(r)
 
                     next(reader)

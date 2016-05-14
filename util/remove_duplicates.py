@@ -6,9 +6,9 @@ import string
 remove duplicate postings form csv files
 
 how to run:
-python remove_duplicates <directory of csv files>
+python remove_duplicates.py <directory of csv files>
 
-ex: python remove_duplicates.py results/providence
+ex: python remove_duplicates.py posts/providence
 
 
 
@@ -52,7 +52,7 @@ def remove_dups(csv_file):
 
 def main():
 	if len(sys.argv) < 2:
-		print 'Usage: python remove_duplicates.py results/newyork'
+		print 'Usage: python remove_duplicates.py posts/newyork'
 		return
 
 	if os.path.isdir(sys.argv[1]):
