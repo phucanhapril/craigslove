@@ -4,12 +4,12 @@ import json
 from collections import Counter
 
 """
-group all clutsres from each city into a single file and save it
+group all clusters from each city into a single file and save it
 then we can go through manually and attach titles
 """
 
-OUTPUT_FILE = 'cluster_data/all_city_clusters_m.json'
-INPUT_DIR = 'cluster_data/cities_2means'
+OUTPUT_FILE = '../cluster_data/all_city_clusters_m.json'
+INPUT_DIR = '../cluster_data/cities_2means'
 
 def main():
 	all_words = []

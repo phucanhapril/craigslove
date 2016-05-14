@@ -4,12 +4,12 @@ import json
 from collections import Counter
 
 """
-group all clutsres from each city into a single file and save it
-then we can go through manually and attach titles
+for each city calculate: which percent of posts fall in 'sex' cluster,
+and which percent of posts fall in 'love and friendship' cluster
 """
 
-INPUT_FILE = 'cluster_data/all_city_clusters.json'
-OUTPUT_FILE = 'cluster_data/all_city_clusters_w_percentages.json'
+INPUT_FILE = '../cluster_data/all_city_clusters.json'
+OUTPUT_FILE = '../cluster_data/all_city_clusters_w_percentages.json'
 
 def main():
 	all_clusters = []
