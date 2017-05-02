@@ -1,22 +1,24 @@
 ## Craigslove: Love in the Time of Craigslist
 http://april1452.github.io/craigslove/  
   
-##craigslist web scraper
+## craigslist web scraper
 __`python craigslove_scraper.py <base url>`__  
 
 where the base url is newyork.craigslist.org, or sfbay.craigslist.org, etc.  
 
 This will scrape personals from Strictly Platonic (stp), Miscellaneous Romance (msr), w4w, w4m, m4w, and m4m.  
 
-Posts are saved to 'posts/city/query.csv' (for example: 'results/providence/w4w.csv')  
+Posts are saved to `posts/<city>/<query>.csv` (for example: `results/providence/w4w.csv`)  
 
 ##### setup (mac instructions)
 install Python 2.7 and pip  
-'sudo pip install BeautifulSoup4'  
-'brew install libxml2'  
-'pip install lxml' (if that doesn’t work try this first: 'xcode-select --install')  
+```
+sudo pip install BeautifulSoup4  
+brew install libxml2
+pip install lxml (if that doesn’t work try this first: 'xcode-select --install')  
+```
 
-##k-means clustering
+## k-means clustering
 ##### ml/clustering/cluster.py
 *instructions for running within the ml/clustering directory:*  
   
